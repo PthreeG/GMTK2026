@@ -22,7 +22,7 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and Input.mouse_mode == Input.MouseMode.MOUSE_MODE_CAPTURED:
 		twist_input -= event.screen_relative.x * SENSITIVITY
 		pitch_input -= event.screen_relative.y * SENSITIVITY
 		pitch_input = clamp(pitch_input, -85, 85)

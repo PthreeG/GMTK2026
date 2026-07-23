@@ -2,8 +2,13 @@ extends CharacterBody3D
 class_name Enemy
 
 @export var player: Node3D
-@export var speed: float = 4.0
+@export var active_speed: float = 4.0
+@export var patrolling_speed: float = 2.5
+@export var pursuing_speed: float = 6
 @export var path: Path3D
+@onready var los: EnemyLOS = $LOS
+@export var rotation_speed = 10.0
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var state_machine: EnemyStateMachine = $EnemyStateMachine
@@ -14,7 +19,7 @@ var current_path_index: int = 0
 func _ready() -> void:
 	on_state_changed(state_machine.current_state, state_machine.current_state)
 
-func _physics_process(delta: float) -> void:	
+func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -24,6 +29,12 @@ func _physics_process(delta: float) -> void:
 	
 	nav_safe()
 	move_and_slide()
+	var velocity_horizontal = Vector3(velocity.x, 0, velocity.z)
+	if velocity_horizontal.length_squared() > 0.01:
+		# Calculate the target transform while keeping the character upright
+		var target_transform = transform.looking_at(global_position + velocity_horizontal, Vector3.UP)
+		# Smoothly interpolate the basis towards the movement direction
+		transform.basis = transform.basis.slerp(target_transform.basis, rotation_speed * delta)
 
 func on_target_reached() -> void:
 	print("Enemy reached nav target")
@@ -34,15 +45,22 @@ func on_target_reached() -> void:
 		nav_agent.target_position = path.curve.get_point_position(current_path_index)
 		print("Updated enemy target position to " + str(path.curve.get_point_position(current_path_index)) + " at index " + str(current_path_index))
 
-func on_state_changed(new: EnemyStateMachine.STATES, previous: EnemyStateMachine.STATES) -> void:
+func on_state_changed(new: EnemyStateMachine.STATES, _previous: EnemyStateMachine.STATES) -> void:
 	print("state updated")
 	match new:
 		state_machine.STATES.IDLE:
-			pass
+			nav_agent.target_position = global_position
+			animation_player.play("idle")
+			animation_player.speed_scale = 1
 		state_machine.STATES.PATROLLING:
 			nav_agent.target_position = path.curve.get_point_position(current_path_index)
+			animation_player.play("run")
+			animation_player.speed_scale = 1
+			active_speed = patrolling_speed
 		state_machine.STATES.PURSUING:
-			pass
+			animation_player.play("run")
+			active_speed = pursuing_speed
+			animation_player.speed_scale = 2
 		state_machine.STATES.ATTACKING:
 			pass
 
@@ -51,8 +69,13 @@ func nav_safe() -> void:
 	if nav_agent.is_navigation_finished(): return
 	#print(name + " is naving safe towards player at " + str(player.position))
 	var next_path_pos := nav_agent.get_next_path_position()
-	var new_velocity: Vector3 = (global_position.direction_to(next_path_pos) * speed)
+	var new_velocity: Vector3 = (global_position.direction_to(next_path_pos) * active_speed)
 	nav_agent.velocity = new_velocity
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector3) -> void:
-	velocity = safe_velocity.normalized() * speed
+	velocity = safe_velocity.normalized() * active_speed
+
+
+func _on_los_found_player() -> void:
+	state_machine.current_state = EnemyStateMachine.STATES.PURSUING
+	pass # Replace with function body.

@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://l0tik4mhi750"]
+
+[ext_resource type="Script" uid="uid://b6ns73peufyrd" path="res://UI/main_menu.gd" id="1_p8ccj"]
+
+[sub_resource type="Theme" id="Theme_hskn0"]
+default_font_size = 52
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tk8dj"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+
+[node name="MainMenu" type="Control" unique_id=331416955]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_hskn0")
+script = ExtResource("1_p8ccj")
+
+[node name="TabContainer" type="TabContainer" parent="." unique_id=415053678]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_tk8dj")
+theme_override_styles/tab_unselected = SubResource("StyleBoxEmpty_tk8dj")
+theme_override_styles/tab_hovered = SubResource("StyleBoxEmpty_tk8dj")
+theme_override_styles/tab_selected = SubResource("StyleBoxEmpty_tk8dj")
+theme_override_styles/tab_disabled = SubResource("StyleBoxEmpty_tk8dj")
+theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_tk8dj")
+current_tab = 0
+tabs_visible = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer" unique_id=2074260344]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Label" type="Label" parent="TabContainer/VBoxContainer" unique_id=2135722172]
+layout_mode = 2
+text = "GAME NAME"
+
+[node name="Button-Start" type="Button" parent="TabContainer/VBoxContainer" unique_id=828189038]
+layout_mode = 2
+text = "START"
+
+[node name="Button-Options" type="Button" parent="TabContainer/VBoxContainer" unique_id=1880159219]
+layout_mode = 2
+text = "OPTIONS"
+
+[node name="Button-Credits" type="Button" parent="TabContainer/VBoxContainer" unique_id=641299722]
+layout_mode = 2
+text = "CREDITS"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="TabContainer" unique_id=1492154204]
+visible = false
+layout_mode = 2
+alignment = 1
+metadata/_tab_index = 1
+
+[node name="Label" type="Label" parent="TabContainer/VBoxContainer2" unique_id=561029047]
+layout_mode = 2
+text = "Options"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/VBoxContainer2" unique_id=1880399069]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="TabContainer/VBoxContainer2/HBoxContainer" unique_id=408259758]
+layout_mode = 2
+text = "Volume"
+
+[node name="Label2" type="Label" parent="TabContainer/VBoxContainer2/HBoxContainer" unique_id=508177463]
+layout_mode = 2
+text = "Slider"
+
+[connection signal="pressed" from="TabContainer/VBoxContainer/Button-Start" to="." method="_on_button_start_pressed"]
+[connection signal="pressed" from="TabContainer/VBoxContainer/Button-Options" to="." method="_on_button_options_pressed"]
+[connection signal="pressed" from="TabContainer/VBoxContainer/Button-Credits" to="." method="_on_button_credits_pressed"]

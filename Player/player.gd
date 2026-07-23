@@ -2,7 +2,7 @@ extends CharacterBody3D
 class_name Player
 
 @export var speed: float = 5.0
-
+@export var movement_enabled: bool = true
 
 func _physics_process(delta: float) -> void:
 	process_movement(delta)
@@ -13,13 +13,14 @@ func process_movement(delta: float) -> void:
 		velocity += get_gravity() * delta
 
 	# Get the input direction and handle the movement/deceleration.
-	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if direction:
-		velocity.x = direction.x * speed
-		velocity.z = direction.z * speed
-	else:
-		velocity.x = move_toward(velocity.x, 0, speed)
-		velocity.z = move_toward(velocity.z, 0, speed)
+	if movement_enabled:
+		var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+		var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+		if direction:
+			velocity.x = direction.x * speed
+			velocity.z = direction.z * speed
+		else:
+			velocity.x = move_toward(velocity.x, 0, speed)
+			velocity.z = move_toward(velocity.z, 0, speed)
 
 	move_and_slide()
