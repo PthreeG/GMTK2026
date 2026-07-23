@@ -3,9 +3,14 @@ class_name Player
 
 @export var speed: float = 5.0
 @export var movement_enabled: bool = true
+@export var camera: CamController
+
+func _ready() -> void:
+		GameStateController.state_changed.connect(on_game_state_changed)
 
 func _physics_process(delta: float) -> void:
 	process_movement(delta)
+
 
 func process_movement(delta: float) -> void:
 	# Add the gravity.
@@ -24,3 +29,12 @@ func process_movement(delta: float) -> void:
 			velocity.z = move_toward(velocity.z, 0, speed)
 
 	move_and_slide()
+
+
+func on_game_state_changed(current: game_state_controller.STATES, _prev: game_state_controller.STATES) -> void:
+	match current:
+		game_state_controller.STATES.LOSS:
+			## Prevent bug when game ends and enemy keeps pushing player
+			axis_lock_linear_x = true
+			axis_lock_linear_y = true
+			axis_lock_linear_z = true

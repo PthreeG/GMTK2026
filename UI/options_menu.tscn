@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://cudwha7c6ufff"]
+
+[ext_resource type="Script" uid="uid://c321crdg52tog" path="res://UI/options_menu.gd" id="1_q6x1i"]
+
+[node name="Options" type="VBoxContainer" unique_id=1098788086]
+alignment = 1
+script = ExtResource("1_q6x1i")
+metadata/_tab_index = 1
+
+[node name="Label" type="Label" parent="." unique_id=322467697]
+layout_mode = 2
+text = "Options"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=188483038]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=1003676353]
+layout_mode = 2
+text = "Master Volume"
+
+[node name="Slider-Master_Volume" type="HSlider" parent="HBoxContainer" unique_id=2057097159]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130.605, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+value = 100.0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="." unique_id=932687814]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer3" unique_id=835810801]
+layout_mode = 2
+text = "Music Volume"
+
+[node name="Slider-Music_Volume" type="HSlider" parent="HBoxContainer3" unique_id=1720085901]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130.605, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+value = 100.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=1410645253]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer2" unique_id=427871341]
+layout_mode = 2
+text = "SFX Volume"
+
+[node name="Slider-SFX_Volume" type="HSlider" parent="HBoxContainer2" unique_id=1909700541]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130.605, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+value = 100.0
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="." unique_id=982427073]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer4" unique_id=969217463]
+layout_mode = 2
+text = "Mouse Sensitivity"
+
+[node name="Slider-Mouse_Sensitivity" type="HSlider" parent="HBoxContainer4" unique_id=1666052008]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130.605, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+value = 50.0
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="." unique_id=172646646]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer5" unique_id=2001809659]
+layout_mode = 2
+text = "Post-processing Effects"
+
+[node name="CheckBox" type="CheckBox" parent="HBoxContainer5" unique_id=899669084]
+layout_mode = 2
+size_flags_horizontal = 10
+button_pressed = true

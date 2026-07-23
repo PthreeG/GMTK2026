@@ -1,15 +1,20 @@
 extends CharacterBody3D
 class_name Enemy
 
-@export var player: Node3D
+@export var player: Player
 @export var active_speed: float = 4.0
 @export var patrolling_speed: float = 2.5
 @export var pursuing_speed: float = 6
 @export var path: Path3D
-@onready var los: EnemyLOS = $LOS
 @export var rotation_speed = 10.0
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@export var player_camera_grab_speed: float = 5
+var grab_camera: bool = false
 
+
+
+@onready var camera_look_at: Marker3D = $CameraLookAt
+@onready var los: EnemyLOS = $LOS
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var state_machine: EnemyStateMachine = $EnemyStateMachine
 
@@ -18,6 +23,13 @@ var current_path_index: int = 0
 
 func _ready() -> void:
 	on_state_changed(state_machine.current_state, state_machine.current_state)
+	GameStateController.state_changed.connect(on_game_state_changed)
+
+func _process(delta: float) -> void:
+	if grab_camera:
+		var target_transform = player.camera.transform.looking_at(camera_look_at.global_position, Vector3.UP)
+		transform.basis = transform.basis.slerp(target_transform.basis, player_camera_grab_speed * delta)
+
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -29,6 +41,11 @@ func _physics_process(delta: float) -> void:
 	
 	nav_safe()
 	move_and_slide()
+	rotate_towards_movement_direction(delta)
+
+
+
+func rotate_towards_movement_direction(delta: float):
 	var velocity_horizontal = Vector3(velocity.x, 0, velocity.z)
 	if velocity_horizontal.length_squared() > 0.01:
 		# Calculate the target transform while keeping the character upright
@@ -48,21 +65,41 @@ func on_target_reached() -> void:
 func on_state_changed(new: EnemyStateMachine.STATES, _previous: EnemyStateMachine.STATES) -> void:
 	print("state updated")
 	match new:
-		state_machine.STATES.IDLE:
+		state_machine.STATES.IDLE: ## Stop navigation and play idle animation
 			nav_agent.target_position = global_position
 			animation_player.play("idle")
 			animation_player.speed_scale = 1
-		state_machine.STATES.PATROLLING:
+		
+		state_machine.STATES.PATROLLING: ## Begin pathing to patrol points and play anim
 			nav_agent.target_position = path.curve.get_point_position(current_path_index)
 			animation_player.play("run")
 			animation_player.speed_scale = 1
 			active_speed = patrolling_speed
-		state_machine.STATES.PURSUING:
+		
+		## Increase speed of movement and animation
+		## Updating nav pathing to player done in physics_process
+		state_machine.STATES.PURSUING: 
 			animation_player.play("run")
 			active_speed = pursuing_speed
 			animation_player.speed_scale = 2
-		state_machine.STATES.ATTACKING:
-			pass
+		
+		state_machine.STATES.ATTACKING: ## Disable player movement, grab camera, play animation, set game state to LOSS
+			nav_agent.target_position = global_position
+			
+			## Freeze player movemnt
+			player.axis_lock_linear_x = true
+			player.axis_lock_linear_y = true
+			player.axis_lock_linear_z = true
+			player.movement_enabled = false
+			
+			player.camera.cam_movement_enabled = false
+			grab_camera = true
+			
+			
+			animation_player.play("attack")
+			animation_player.speed_scale = 1
+			get_tree().create_timer(1.5).timeout.connect(func(): GameStateController.current_state = GameStateController.STATES.LOSS)
+			
 
 
 func nav_safe() -> void:
@@ -78,4 +115,22 @@ func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector3) -> void:
 
 func _on_los_found_player() -> void:
 	state_machine.current_state = EnemyStateMachine.STATES.PURSUING
-	pass # Replace with function body.
+	los.found_player.disconnect(_on_los_found_player)
+
+
+func _on_player_catch_region_body_entered(body: Node3D) -> void:
+	print("body entered")
+	if body is not Player: return
+	print("player body entered")
+
+	
+	state_machine.current_state = state_machine.STATES.ATTACKING
+
+
+func on_game_state_changed(current: game_state_controller.STATES, _prev: game_state_controller.STATES) -> void:
+	match current:
+		game_state_controller.STATES.LOSS:
+			## Prevent bug when game ends and enemy keeps pushing player
+			axis_lock_linear_x = true
+			axis_lock_linear_y = true
+			axis_lock_linear_z = true

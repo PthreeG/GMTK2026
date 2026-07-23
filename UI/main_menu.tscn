@@ -1,9 +1,16 @@
 [gd_scene format=3 uid="uid://l0tik4mhi750"]
 
 [ext_resource type="Script" uid="uid://b6ns73peufyrd" path="res://UI/main_menu.gd" id="1_p8ccj"]
+[ext_resource type="PackedScene" uid="uid://cudwha7c6ufff" path="res://UI/options_menu.tscn" id="2_tk8dj"]
 
 [sub_resource type="Theme" id="Theme_hskn0"]
 default_font_size = 52
+HBoxContainer/constants/separation = 90
+MarginContainer/constants/margin_bottom = 20
+MarginContainer/constants/margin_left = 20
+MarginContainer/constants/margin_right = 20
+MarginContainer/constants/margin_top = 20
+VBoxContainer/constants/separation = 31
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tk8dj"]
 content_margin_left = 0.0
@@ -11,13 +18,14 @@ content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
 
+[sub_resource type="LabelSettings" id="LabelSettings_hskn0"]
+font_size = 30
+
 [node name="MainMenu" type="Control" unique_id=331416955]
 layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_hskn0")
@@ -39,48 +47,85 @@ theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_tk8dj")
 current_tab = 0
 tabs_visible = false
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer" unique_id=2074260344]
+[node name="Main" type="Control" parent="TabContainer" unique_id=358651357]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="Label" type="Label" parent="TabContainer/VBoxContainer" unique_id=2135722172]
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Main" unique_id=1171584260]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -142.0
+offset_right = 261.0
+offset_bottom = 142.0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Main/MarginContainer" unique_id=2074260344]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/Main/MarginContainer/VBoxContainer" unique_id=2135722172]
 layout_mode = 2
 text = "GAME NAME"
 
-[node name="Button-Start" type="Button" parent="TabContainer/VBoxContainer" unique_id=828189038]
+[node name="Button-Start" type="Button" parent="TabContainer/Main/MarginContainer/VBoxContainer" unique_id=828189038]
 layout_mode = 2
 text = "START"
 
-[node name="Button-Options" type="Button" parent="TabContainer/VBoxContainer" unique_id=1880159219]
+[node name="Button-Options" type="Button" parent="TabContainer/Main/MarginContainer/VBoxContainer" unique_id=1880159219]
 layout_mode = 2
 text = "OPTIONS"
 
-[node name="Button-Credits" type="Button" parent="TabContainer/VBoxContainer" unique_id=641299722]
-layout_mode = 2
-text = "CREDITS"
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="TabContainer" unique_id=1492154204]
+[node name="OptionsMenu" type="Control" parent="TabContainer" unique_id=1193191551]
 visible = false
 layout_mode = 2
-alignment = 1
 metadata/_tab_index = 1
 
-[node name="Label" type="Label" parent="TabContainer/VBoxContainer2" unique_id=561029047]
-layout_mode = 2
-text = "Options"
+[node name="Options" parent="TabContainer/OptionsMenu" unique_id=1098788086 instance=ExtResource("2_tk8dj")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -279.5
+offset_top = -166.0
+offset_right = 279.5
+offset_bottom = 166.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/VBoxContainer2" unique_id=1880399069]
-layout_mode = 2
-alignment = 1
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/OptionsMenu" unique_id=2093630909]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="Label" type="Label" parent="TabContainer/VBoxContainer2/HBoxContainer" unique_id=408259758]
+[node name="Button-OptionBack" type="Button" parent="TabContainer/OptionsMenu/MarginContainer" unique_id=1864865472]
 layout_mode = 2
-text = "Volume"
+text = " <- BACK "
 
-[node name="Label2" type="Label" parent="TabContainer/VBoxContainer2/HBoxContainer" unique_id=508177463]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1040724592]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1365665758]
 layout_mode = 2
-text = "Slider"
 
-[connection signal="pressed" from="TabContainer/VBoxContainer/Button-Start" to="." method="_on_button_start_pressed"]
-[connection signal="pressed" from="TabContainer/VBoxContainer/Button-Options" to="." method="_on_button_options_pressed"]
-[connection signal="pressed" from="TabContainer/VBoxContainer/Button-Credits" to="." method="_on_button_credits_pressed"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1846173883]
+layout_mode = 2
+text = "PthreeG- Programming and development
+Juuh - Concept artist and level design
+liltlet - Audio and Team Lead"
+label_settings = SubResource("LabelSettings_hskn0")
+
+[connection signal="pressed" from="TabContainer/Main/MarginContainer/VBoxContainer/Button-Start" to="." method="_on_button_start_pressed"]
+[connection signal="pressed" from="TabContainer/Main/MarginContainer/VBoxContainer/Button-Options" to="." method="_on_button_options_pressed"]
+[connection signal="pressed" from="TabContainer/OptionsMenu/MarginContainer/Button-OptionBack" to="." method="_on_button_option_back_pressed"]

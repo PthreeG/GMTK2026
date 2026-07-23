@@ -18,6 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 CloseGame="*uid://bd62pw60us6s"
+GameStateController="*uid://6o315b4tylhd"
+Settings="*uid://dr1y2xffmwfec"
 
 [display]
 
@@ -27,6 +29,10 @@ window/stretch/aspect="expand"
 [global_group]
 
 Player=""
+
+[gui]
+
+theme/custom_font="uid://bycakrhv2xjjt"
 
 [input]
 

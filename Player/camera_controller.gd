@@ -6,10 +6,11 @@
 # From u/Dreemlan on reddit https://www.reddit.com/r/godot/comments/1oraj8w/how_to_set_up_a_smooth_first_person_cameraplayer/
 
 extends Camera3D
+class_name CamController
 
 @export var player_character_body: CharacterBody3D
 var height #height relative to players feet. set on ready
-
+@export var cam_movement_enabled: bool = true
 const SENSITIVITY: float = 0.1
 
 var twist_input: float = 0.0
@@ -22,13 +23,14 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion and Input.mouse_mode == Input.MouseMode.MOUSE_MODE_CAPTURED:
-		twist_input -= event.screen_relative.x * SENSITIVITY
-		pitch_input -= event.screen_relative.y * SENSITIVITY
+	if event is InputEventMouseMotion and Input.mouse_mode == Input.MouseMode.MOUSE_MODE_CAPTURED and cam_movement_enabled:
+		twist_input -= event.screen_relative.x * SENSITIVITY * Settings.mouse_sensitivity
+		pitch_input -= event.screen_relative.y * SENSITIVITY * Settings.mouse_sensitivity
 		pitch_input = clamp(pitch_input, -85, 85)
 
 
 func _physics_process(delta: float) -> void:
+	if !cam_movement_enabled: return
 	var current_q = basis.get_rotation_quaternion()
 	var twist_q = Quaternion(Vector3.UP, deg_to_rad(twist_input))
 	var pitch_q = Quaternion(Vector3.RIGHT, deg_to_rad(pitch_input))
