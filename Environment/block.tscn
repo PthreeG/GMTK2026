@@ -1,13 +1,19 @@
 [gd_scene format=3 uid="uid://bv46vvej5vgc0"]
 
+[ext_resource type="Texture2D" uid="uid://de6gxvr3n80rt" path="res://UI/everytexture.com-stock-rocks-texture-00031-400x400.jpg" id="1_mggdf"]
+
 [sub_resource type="BoxMesh" id="BoxMesh_c08ot"]
 size = Vector3(1, 2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hskn0"]
+albedo_texture = ExtResource("1_mggdf")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_csam0"]
 size = Vector3(1, 2, 1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" unique_id=1129299851]
 mesh = SubResource("BoxMesh_c08ot")
+surface_material_override/0 = SubResource("StandardMaterial3D_hskn0")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=757868631]
 

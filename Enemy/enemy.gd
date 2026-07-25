@@ -17,6 +17,7 @@ var grab_camera: bool = false
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var state_machine: EnemyStateMachine = $EnemyStateMachine
+@onready var path_finding: EnemyPathFinding = $EnemyPathFinding
 
 var current_path_index: int = 0
 
@@ -55,15 +56,19 @@ func rotate_towards_movement_direction(delta: float):
 
 func on_target_reached() -> void:
 	print("Enemy reached nav target")
+	
 	if state_machine.current_state == state_machine.STATES.PATROLLING:
-		current_path_index += 1
-		if current_path_index + 1 > path.curve.point_count:
-			current_path_index = 0
-		nav_agent.target_position = path.curve.get_point_position(current_path_index)
-		print("Updated enemy target position to " + str(path.curve.get_point_position(current_path_index)) + " at index " + str(current_path_index))
+	## EnemyPathFinding
+		var node = path_finding.get_random_node_from_player_pos()
+		nav_agent.target_position = node.global_position
+	## Path3D based enemy AI
+		#current_path_index += 1
+		#if current_path_index + 1 > path.curve.point_count:
+			#current_path_index = 0
+		#nav_agent.target_position = path.curve.get_point_position(current_path_index)
+		#print("Updated enemy target position to " + str(path.curve.get_point_position(current_path_index)) + " at index " + str(current_path_index))
 
 func on_state_changed(new: EnemyStateMachine.STATES, _previous: EnemyStateMachine.STATES) -> void:
-	print("state updated")
 	match new:
 		state_machine.STATES.IDLE: ## Stop navigation and play idle animation
 			nav_agent.target_position = global_position
@@ -71,7 +76,8 @@ func on_state_changed(new: EnemyStateMachine.STATES, _previous: EnemyStateMachin
 			animation_player.speed_scale = 1
 		
 		state_machine.STATES.PATROLLING: ## Begin pathing to patrol points and play anim
-			nav_agent.target_position = path.curve.get_point_position(current_path_index)
+			var node_pos := path_finding.get_random_node_from_player_pos().global_position
+			nav_agent.target_position = node_pos
 			animation_player.play("run")
 			animation_player.speed_scale = 1
 			active_speed = patrolling_speed
@@ -119,9 +125,9 @@ func _on_los_found_player() -> void:
 
 
 func _on_player_catch_region_body_entered(body: Node3D) -> void:
-	print("body entered")
+	#print("body entered")
 	if body is not Player: return
-	print("player body entered")
+	print("Enemy caught player!")
 
 	
 	state_machine.current_state = state_machine.STATES.ATTACKING
@@ -134,3 +140,9 @@ func on_game_state_changed(current: game_state_controller.STATES, _prev: game_st
 			axis_lock_linear_x = true
 			axis_lock_linear_y = true
 			axis_lock_linear_z = true
+
+
+func _on_timer_timeout() -> void:
+	if state_machine.current_state != state_machine.STATES.PATROLLING: return
+	if player.global_position.distance_squared_to(nav_agent.target_position) > path_finding.player_node_range_sqrd:
+		nav_agent.target_position = path_finding.get_random_node_from_player_pos().global_position

@@ -1,6 +1,7 @@
 extends Control
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var button: Button = $VBoxContainer/Button
 
 
 
@@ -15,10 +16,7 @@ func on_game_state_changed(current: game_state_controller.STATES, prev: game_sta
 			show()
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			animation_player.play("fade_to_black")
-			mouse_filter = Control.MOUSE_FILTER_STOP
-			for child in get_children():
-				if child is Control:
-					child.mouse_filter = Control.MOUSE_FILTER_STOP
+			button.mouse_filter = Control.MOUSE_FILTER_STOP
 
 
 func _on_button_pressed() -> void:

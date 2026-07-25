@@ -26,8 +26,8 @@ func check_for_player() -> void:
 		ray_cast.target_position = target_pos
 		var collider = ray_cast.get_collider()
 		if collider is not Player: return
+		print("Enemy found Player!")
 		found_player.emit()
-		#print("Found Player!")
 	
 	##for point in player_points:
 	#ray_cast.target_position = get_tree().get_first_node_in_group("Player").global_position - global_position

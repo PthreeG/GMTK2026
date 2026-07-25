@@ -88,3 +88,8 @@ text = "Post-processing Effects"
 layout_mode = 2
 size_flags_horizontal = 10
 button_pressed = true
+
+[connection signal="drag_ended" from="HBoxContainer/Slider-Master_Volume" to="." method="_on_slider_master_volume_drag_ended"]
+[connection signal="drag_ended" from="HBoxContainer3/Slider-Music_Volume" to="." method="_on_slider_music_volume_drag_ended"]
+[connection signal="drag_ended" from="HBoxContainer2/Slider-SFX_Volume" to="." method="_on_slider_sfx_volume_drag_ended"]
+[connection signal="drag_ended" from="HBoxContainer4/Slider-Mouse_Sensitivity" to="." method="_on_slider_mouse_sensitivity_drag_ended"]

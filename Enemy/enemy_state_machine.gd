@@ -18,6 +18,7 @@ func set_state(state: STATES) -> void:
 	else:
 		var previous_state := current_state
 		current_state = state
+		print("Enemy entered state " + STATES.keys()[current_state] + " :: Exited state " + STATES.keys()[previous_state])
 		state_changed.emit(current_state, previous_state)
 
 
