@@ -9,7 +9,7 @@ class_name Enemy
 @export var rotation_speed = 10.0
 @export var player_camera_grab_speed: float = 5
 var grab_camera: bool = false
-
+@export var patrol_to_player_chance: float = 0.1
 
 
 @onready var camera_look_at: Marker3D = $CameraLookAt
@@ -59,8 +59,7 @@ func on_target_reached() -> void:
 	
 	if state_machine.current_state == state_machine.STATES.PATROLLING:
 	## EnemyPathFinding
-		var node = path_finding.get_random_node_from_player_pos()
-		nav_agent.target_position = node.global_position
+		patrol_to_new_locaiton()
 	## Path3D based enemy AI
 		#current_path_index += 1
 		#if current_path_index + 1 > path.curve.point_count:
@@ -145,4 +144,12 @@ func on_game_state_changed(current: game_state_controller.STATES, _prev: game_st
 func _on_timer_timeout() -> void:
 	if state_machine.current_state != state_machine.STATES.PATROLLING: return
 	if player.global_position.distance_squared_to(nav_agent.target_position) > path_finding.player_node_range_sqrd:
-		nav_agent.target_position = path_finding.get_random_node_from_player_pos().global_position
+		patrol_to_new_locaiton()
+
+
+func patrol_to_new_locaiton() -> void:
+	if patrol_to_player_chance > randf():
+		nav_agent.target_position = player.global_position
+	
+	var node = path_finding.get_random_node_from_player_pos()
+	nav_agent.target_position = path_finding.get_random_node_from_player_pos().global_position

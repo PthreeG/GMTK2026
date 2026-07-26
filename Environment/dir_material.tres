@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dyv43xqengq5l"]
+
+[ext_resource type="Texture2D" uid="uid://3mf7medv4q2g" path="res://dirty_1.png" id="1_psrei"]
+
+[resource]
+albedo_texture = ExtResource("1_psrei")
+uv1_scale = Vector3(157.665, 157.665, 157.665)
