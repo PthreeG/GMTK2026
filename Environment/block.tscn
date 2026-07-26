@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://de6gxvr3n80rt" path="res://UI/everytexture.com-stock-rocks-texture-00031-400x400.jpg" id="1_mggdf"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_c08ot"]
-size = Vector3(1, 2, 1)
+size = Vector3(1, 2, 1.1211054)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hskn0"]
 albedo_texture = ExtResource("1_mggdf")
