@@ -11,7 +11,7 @@ func _ready() -> void:
 	GameStateController.state_changed.connect(on_game_state_changed)
 
 
-func on_game_state_changed(current: game_state_controller.STATES, prev: game_state_controller.STATES) -> void:
+func on_game_state_changed(current: game_state_controller.STATES, _prev: game_state_controller.STATES) -> void:
 	match current:
 		game_state_controller.STATES.LOSS:
 			show()

@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cwqldo8q4ntp8"]
+[gd_scene format=3 uid="uid://6om01ge8c6oe"]
 
 [ext_resource type="Script" uid="uid://bhuhotk3u4gle" path="res://Environment/level.gd" id="1_05x8u"]
 [ext_resource type="Script" uid="uid://do60ev31rg8pu" path="res://Enemy/enemy.gd" id="1_7ckbr"]
@@ -7,11 +7,11 @@
 [ext_resource type="Script" uid="uid://c1tqpamewv2h2" path="res://Enemy/enemy_state_machine.gd" id="2_ihm8p"]
 [ext_resource type="Material" uid="uid://dyv43xqengq5l" path="res://Environment/dir_material.tres" id="2_ij88s"]
 [ext_resource type="Script" uid="uid://dibel4aotn1ty" path="res://Enemy/enemy_los.gd" id="3_ac3lh"]
-[ext_resource type="PackedScene" uid="uid://bdqfdg8xnbqki" path="res://pickaxe.tscn" id="3_aw2l4"]
 [ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="3_baloa"]
 [ext_resource type="Script" uid="uid://dugv2lh1dk2ra" path="res://Player/camera_controller.gd" id="4_ac3lh"]
 [ext_resource type="Script" uid="uid://cch6ca2rjw1wc" path="res://Environment/fail_screen.gd" id="7_ac3lh"]
 [ext_resource type="Script" uid="uid://y3r301nk8k5b" path="res://Enemy/AI/path_finding.gd" id="7_ojni7"]
+[ext_resource type="Script" uid="uid://du5kiu3vh8e8x" path="res://Player/broken_feet.gd" id="10_384sh"]
 [ext_resource type="Shader" uid="uid://djxefgraovfnp" path="res://postprocess.gdshader" id="11_vg2hw"]
 [ext_resource type="AudioStream" uid="uid://cn0yunsx8csek" path="res://Music/HIGH_PROXIMITY.ogg" id="12_5rkwn"]
 [ext_resource type="AudioStream" uid="uid://cyvxqm6nad5lx" path="res://Music/MEDIUM_PROXIMITY.ogg" id="13_vg2hw"]
@@ -402,21 +402,6 @@ ambient_light_sky_contribution = 0.0
 ambient_light_energy = 1.33
 fog_density = 0.1103
 
-[sub_resource type="GDScript" id="GDScript_csam0"]
-resource_name = "EndgameCircle"
-script/source = "extends Area3D
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-"
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_hskn0"]
 radius = 10.082019
 
@@ -438,20 +423,17 @@ transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
 material_override = ExtResource("2_ij88s")
 mesh = SubResource("CylinderMesh_hskn0")
 
-[node name="StaticBody3D2" type="StaticBody3D" parent="NavigationRegion3D" unique_id=1251246393]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.063574, 0)
+[node name="StaticBody3D2" type="StaticBody3D" parent="NavigationRegion3D" unique_id=1022735052]
+transform = Transform3D(0.9999998, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0, 4.7781816, 0)
+visible = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/StaticBody3D2" unique_id=156850672]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/StaticBody3D2" unique_id=242371627]
 shape = SubResource("CylinderShape3D_hskn0")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/StaticBody3D2" unique_id=1441104365]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.2409394, 0)
-visible = false
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/StaticBody3D2" unique_id=1626798407]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
 material_override = ExtResource("2_ij88s")
 mesh = SubResource("CylinderMesh_hskn0")
-
-[node name="Pickaxe" parent="NavigationRegion3D/StaticBody3D2" unique_id=314797179 instance=ExtResource("3_aw2l4")]
-transform = Transform3D(3.7406423, 1.7052547, -3.6084065, 0, 4.94556, 2.337164, 3.9910512, -1.5982621, 3.3820052, -8.506439, -6.9067397, 148.81029)
 
 [node name="Blocks" type="Node3D" parent="NavigationRegion3D" unique_id=719231022]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.8463025, 0)
@@ -3634,7 +3616,6 @@ avoidance_enabled = true
 
 [node name="EnemyStateMachine" type="Node" parent="Enemy" unique_id=950150977]
 script = ExtResource("2_ihm8p")
-current_state = 1
 metadata/_custom_type_script = "uid://c1tqpamewv2h2"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Enemy" unique_id=552022361]
@@ -3854,14 +3835,28 @@ modulate = Color(0, 0, 0, 1)
 texture = ExtResource("3_baloa")
 script = SubResource("GDScript_hskn0")
 
+[node name="BrokenFeet" type="Node" parent="Player" unique_id=645966902]
+script = ExtResource("10_384sh")
+metadata/_custom_type_script = "uid://du5kiu3vh8e8x"
+
+[node name="CanWalkTimer" type="Timer" parent="Player/BrokenFeet" unique_id=808271062]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 12.0
+one_shot = true
+
+[node name="NoWalkTimer" type="Timer" parent="Player/BrokenFeet" unique_id=590038369]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 3.0
+one_shot = true
+
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1167741838 node_paths=PackedStringArray("player_character_body")]
-transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 3.1656842, 1.4947087, 2.2171955)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.839133, 1.4947087, 2.2171955)
 script = ExtResource("4_ac3lh")
 player_character_body = NodePath("../Player")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D" unique_id=107688378]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.033773422)
-visible = false
 mesh = SubResource("QuadMesh_hskn0")
 surface_material_override/0 = SubResource("ShaderMaterial_83adp")
 
@@ -3871,9 +3866,9 @@ curve = SubResource("Curve3D_dmw10")
 [node name="Marker3D" type="Marker3D" parent="Path3D" unique_id=605627343]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9351597, 4.7683716e-07, -7.5886497)
 
-[node name="FadeToBlack" type="CanvasLayer" parent="." unique_id=1892204747]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1892204747]
 
-[node name="Control" type="Control" parent="FadeToBlack" unique_id=1765318234]
+[node name="Control" type="Control" parent="UI" unique_id=1765318234]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -3883,7 +3878,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("7_ac3lh")
 
-[node name="TextureRect" type="TextureRect" parent="FadeToBlack/Control" unique_id=75790290]
+[node name="TextureRect" type="TextureRect" parent="UI/Control" unique_id=75790290]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
@@ -3894,7 +3889,7 @@ grow_vertical = 2
 mouse_filter = 2
 texture = SubResource("GradientTexture1D_hskn0")
 
-[node name="MarginContainer" type="MarginContainer" parent="FadeToBlack/Control/TextureRect" unique_id=1586049896]
+[node name="MarginContainer" type="MarginContainer" parent="UI/Control/TextureRect" unique_id=1586049896]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -3906,17 +3901,17 @@ offset_top = -40.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="FadeToBlack/Control/TextureRect/MarginContainer" unique_id=304819004]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Control/TextureRect/MarginContainer" unique_id=304819004]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="FadeToBlack/Control/TextureRect/MarginContainer/VBoxContainer" unique_id=751685286]
+[node name="Label" type="Label" parent="UI/Control/TextureRect/MarginContainer/VBoxContainer" unique_id=751685286]
 layout_mode = 2
 text = "PthreeG- Programming and development
 Juuh - Concept artist and level design
 liltlet - Audio and Team Lead"
 label_settings = SubResource("LabelSettings_hskn0")
 
-[node name="Loss Screen" type="VBoxContainer" parent="FadeToBlack/Control" unique_id=2139627683]
+[node name="Loss Screen" type="VBoxContainer" parent="UI/Control" unique_id=2139627683]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -3933,19 +3928,19 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_constants/separation = 49
 
-[node name="Label" type="Label" parent="FadeToBlack/Control/Loss Screen" unique_id=1213004892]
+[node name="Label" type="Label" parent="UI/Control/Loss Screen" unique_id=1213004892]
 layout_mode = 2
 text = "YOU DIED"
 label_settings = SubResource("LabelSettings_c08ot")
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="FadeToBlack/Control/Loss Screen" unique_id=1761606402]
+[node name="Button" type="Button" parent="UI/Control/Loss Screen" unique_id=1761606402]
 layout_mode = 2
 mouse_filter = 2
 theme_override_font_sizes/font_size = 60
 text = "RESTART"
 
-[node name="Win Screen" type="VBoxContainer" parent="FadeToBlack/Control" unique_id=1201939412]
+[node name="Win Screen" type="VBoxContainer" parent="UI/Control" unique_id=1201939412]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -3962,24 +3957,59 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_constants/separation = 49
 
-[node name="Label" type="Label" parent="FadeToBlack/Control/Win Screen" unique_id=1258277193]
+[node name="Label" type="Label" parent="UI/Control/Win Screen" unique_id=1258277193]
 layout_mode = 2
 text = "YOU ESCAPED"
 label_settings = SubResource("LabelSettings_c08ot")
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="FadeToBlack/Control/Win Screen" unique_id=1776817823]
+[node name="Button" type="Button" parent="UI/Control/Win Screen" unique_id=1776817823]
 layout_mode = 2
 mouse_filter = 2
 theme_override_font_sizes/font_size = 60
 text = "RESTART"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="FadeToBlack/Control" unique_id=351222658]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/Control" unique_id=351222658]
 root_node = NodePath("../..")
 libraries/ = SubResource("AnimationLibrary_ojni7")
 
-[node name="MainMenu" parent="FadeToBlack/Control" unique_id=331416955 instance=ExtResource("14_384sh")]
+[node name="MainMenu" parent="UI/Control" unique_id=331416955 instance=ExtResource("14_384sh")]
 layout_mode = 1
+
+[node name="Label" type="Label" parent="UI" unique_id=933466905]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -8.5
+offset_right = 20.0
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 83
+text = "PRESS ESC"
+
+[node name="MarginContainer" type="MarginContainer" parent="UI" unique_id=454592072]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 16.0
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 32
+
+[node name="WalkTimeSlider" type="VSlider" parent="UI/MarginContainer" unique_id=370673263]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+step = 0.1
+value = 100.0
+editable = false
+scrollable = false
 
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=445520881 node_paths=PackedStringArray("player", "enemy")]
 stream = SubResource("AudioStreamInteractive_j3pel")
@@ -4090,7 +4120,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1608582, 0.71909046, -0.48
 [node name="Area3D" type="Area3D" parent="." unique_id=1427708426]
 collision_layer = 0
 collision_mask = 2
-script = SubResource("GDScript_csam0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=2012017175]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.416431, 0, -79.71879)
@@ -4102,6 +4131,8 @@ shape = SubResource("SphereShape3D_hskn0")
 [connection signal="found_player" from="Enemy/LOS" to="Enemy" method="_on_los_found_player"]
 [connection signal="body_entered" from="Enemy/PlayerCatchRegion" to="Enemy" method="_on_player_catch_region_body_entered"]
 [connection signal="timeout" from="Enemy/EnemyPathFinding/Timer" to="Enemy" method="_on_timer_timeout"]
-[connection signal="pressed" from="FadeToBlack/Control/Loss Screen/Button" to="FadeToBlack/Control" method="_on_button_pressed"]
-[connection signal="pressed" from="FadeToBlack/Control/Win Screen/Button" to="FadeToBlack/Control" method="_on_button_pressed"]
+[connection signal="timeout" from="Player/BrokenFeet/CanWalkTimer" to="Player/BrokenFeet" method="_on_can_walk_timer_timeout"]
+[connection signal="timeout" from="Player/BrokenFeet/NoWalkTimer" to="Player/BrokenFeet" method="_on_no_walk_timer_timeout"]
+[connection signal="pressed" from="UI/Control/Loss Screen/Button" to="UI/Control" method="_on_button_pressed"]
+[connection signal="pressed" from="UI/Control/Win Screen/Button" to="UI/Control" method="_on_button_pressed"]
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

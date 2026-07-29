@@ -153,13 +153,14 @@ func on_game_state_changed(current: game_state_controller.STATES, _prev: game_st
 		
 		game_state_controller.STATES.ACTIVE:
 			state_machine.current_state = EnemyStateMachine.STATES.PATROLLING
-		
+			lock_all_linear_axis(false)
+			
+		GameStateController.STATES.PAUSED:
+			lock_all_linear_axis(true)
 		
 		game_state_controller.STATES.LOSS:
 			## Prevent bug when game ends and enemy keeps pushing player
-			axis_lock_linear_x = true
-			axis_lock_linear_y = true
-			axis_lock_linear_z = true
+			lock_all_linear_axis(true)
 		GameStateController.STATES.WIN:
 			state_machine.current_state = EnemyStateMachine.STATES.IDLE
 
@@ -177,3 +178,8 @@ func patrol_to_new_locaiton() -> void:
 	
 	var node = path_finding.get_random_node_from_player_pos()
 	nav_agent.target_position = node.global_position
+
+func lock_all_linear_axis(lock: bool) -> void:
+	axis_lock_linear_x = lock
+	axis_lock_linear_y = lock
+	axis_lock_linear_z = lock

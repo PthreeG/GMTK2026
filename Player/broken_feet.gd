@@ -16,13 +16,13 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if !can_walk_timer.is_stopped() and GameStateController.current_state == GameStateController.STATES.ACTIVE:
-		walk_time_slider.value = (can_walk_timer.time_left / can_walk_timer.wait_time) * 100
+		walk_time_slider.value = (can_walk_timer.time_left / can_walk_timer.wait_time) * walk_time_slider.max_value
 	elif !no_walk_timer.is_stopped() and GameStateController.current_state == GameStateController.STATES.ACTIVE:
-		walk_time_slider.value = 100 - ((no_walk_timer.time_left / no_walk_timer.wait_time) * 100)
+		walk_time_slider.value = 100 - ((no_walk_timer.time_left / no_walk_timer.wait_time) * walk_time_slider.max_value)
 
-func on_game_stat_update(state: GameStateController.STATES, _x) -> void:
+func on_game_stat_update(state: GameStateController.STATES, prev: GameStateController.STATES) -> void:
 	if state == GameStateController.STATES.ACTIVE:
-		can_walk_timer.start()
+		can_walk_timer.start(can_walk_timer.time_left)
 		walk_time_slider.show()
 	else:
 		can_walk_timer.stop()

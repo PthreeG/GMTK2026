@@ -19,3 +19,6 @@ func set_state(state: STATES) -> void:
 		var previous_state := current_state
 		current_state = state
 		state_changed.emit(current_state, previous_state)
+
+func is_game_paused_or_active() -> bool:
+	return true if (current_state == GameStateController.STATES.ACTIVE or current_state == GameStateController.STATES.PAUSED) else false

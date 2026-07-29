@@ -6,16 +6,18 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	GameStateController.current_state = GameStateController.STATES.MAIN_MENU
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 
 func _on_button_start_pressed() -> void:
 	hide()
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	GameStateController.current_state = GameStateController.STATES.ACTIVE
 
 
 func _on_button_options_pressed() -> void:
