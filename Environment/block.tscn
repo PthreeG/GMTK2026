@@ -11,6 +11,9 @@ albedo_texture = ExtResource("1_mggdf")
 [sub_resource type="BoxShape3D" id="BoxShape3D_csam0"]
 size = Vector3(1, 2, 1)
 
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_hskn0"]
+size = Vector3(1, 2.035, 1.135)
+
 [node name="MeshInstance3D" type="MeshInstance3D" unique_id=1129299851]
 mesh = SubResource("BoxMesh_c08ot")
 surface_material_override/0 = SubResource("StandardMaterial3D_hskn0")
@@ -19,3 +22,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_hskn0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=646288862]
 shape = SubResource("BoxShape3D_csam0")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="." unique_id=1241057784]
+occluder = SubResource("BoxOccluder3D_hskn0")

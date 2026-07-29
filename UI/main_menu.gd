@@ -15,7 +15,7 @@ func _process(delta: float) -> void:
 
 
 func _on_button_start_pressed() -> void:
-	get_tree().change_scene_to_packed(level_scene)
+	hide()
 
 
 func _on_button_options_pressed() -> void:

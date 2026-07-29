@@ -13,6 +13,7 @@ text = "Options"
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=188483038]
+visible = false
 layout_mode = 2
 alignment = 1
 
@@ -29,6 +30,7 @@ size_flags_vertical = 4
 value = 100.0
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="." unique_id=932687814]
+visible = false
 layout_mode = 2
 alignment = 1
 
@@ -45,6 +47,7 @@ size_flags_vertical = 4
 value = 100.0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=1410645253]
+visible = false
 layout_mode = 2
 alignment = 1
 
@@ -93,3 +96,4 @@ button_pressed = true
 [connection signal="drag_ended" from="HBoxContainer3/Slider-Music_Volume" to="." method="_on_slider_music_volume_drag_ended"]
 [connection signal="drag_ended" from="HBoxContainer2/Slider-SFX_Volume" to="." method="_on_slider_sfx_volume_drag_ended"]
 [connection signal="drag_ended" from="HBoxContainer4/Slider-Mouse_Sensitivity" to="." method="_on_slider_mouse_sensitivity_drag_ended"]
+[connection signal="toggled" from="HBoxContainer5/CheckBox" to="." method="_on_check_box_toggled"]

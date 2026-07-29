@@ -1,6 +1,18 @@
 extends Node3D
 
 
-# Called when the node enters the scene tree for the first time.
+@onready var label: Label = $FadeToBlack/Label
+
+
+func _on_area_3d_body_entered(body: Node3D) -> void: ## Endgame circle entery
+	if body is Player:
+		GameStateController.current_state = GameStateController.STATES.WIN
+
 func _ready() -> void:
-	GameStateController.current_state = game_state_controller.STATES.ACTIVE
+	CloseGame.paused_game.connect(on_game_closed)
+	#label.hide()
+
+func on_game_closed(tf: bool) -> void:
+	if tf:
+		label.show()
+	else: label.hide()

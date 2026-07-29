@@ -1,7 +1,8 @@
 extends Control
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var button: Button = $VBoxContainer/Button
+@onready var button: Button = $"Loss Screen"/Button
+@onready var button1: Button = $"Win Screen/Button"
 
 
 
@@ -17,7 +18,11 @@ func on_game_state_changed(current: game_state_controller.STATES, prev: game_sta
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			animation_player.play("fade_to_black")
 			button.mouse_filter = Control.MOUSE_FILTER_STOP
-
+		game_state_controller.STATES.WIN:
+			show()
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			animation_player.play("fade_to_black_win")
+			button1.mouse_filter = Control.MOUSE_FILTER_STOP
 
 func _on_button_pressed() -> void:
 	get_tree().reload_current_scene()

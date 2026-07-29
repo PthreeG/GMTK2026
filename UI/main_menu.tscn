@@ -2,7 +2,6 @@
 
 [ext_resource type="Theme" uid="uid://cvocm5yi7158u" path="res://UI/basic_ui_theme.tres" id="1_4cwpn"]
 [ext_resource type="Script" uid="uid://b6ns73peufyrd" path="res://UI/main_menu.gd" id="1_p8ccj"]
-[ext_resource type="PackedScene" uid="uid://cwqldo8q4ntp8" path="res://Environment/level.tscn" id="2_d8nwk"]
 [ext_resource type="PackedScene" uid="uid://cudwha7c6ufff" path="res://UI/options_menu.tscn" id="2_tk8dj"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tk8dj"]
@@ -23,7 +22,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_4cwpn")
 script = ExtResource("1_p8ccj")
-level_scene = ExtResource("2_d8nwk")
 
 [node name="TabContainer" type="TabContainer" parent="." unique_id=415053678]
 layout_mode = 1

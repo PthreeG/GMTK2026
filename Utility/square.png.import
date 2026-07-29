@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drop8lqlayrrf"
-path.s3tc="res://.godot/imported/Wood2UVrdy.png-b431c1d4baf4dab92e06f0be8d38b7d7.s3tc.ctex"
+uid="uid://d1yajs7vi0lu5"
+path.s3tc="res://.godot/imported/square.png-292760366135451502b5d0007556905c.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://textures/Wood2UVrdy.png"
-dest_files=["res://.godot/imported/Wood2UVrdy.png-b431c1d4baf4dab92e06f0be8d38b7d7.s3tc.ctex"]
+source_file="res://Utility/square.png"
+dest_files=["res://.godot/imported/square.png-292760366135451502b5d0007556905c.s3tc.ctex"]
 
 [params]
 

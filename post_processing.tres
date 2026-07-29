@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://td583btmoetb"]
+
+[ext_resource type="Shader" uid="uid://djxefgraovfnp" path="res://postprocess.gdshader" id="1_hjfdk"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_hjfdk")
+shader_parameter/fog_distance = 0.22999999485904
+shader_parameter/fog_rgb = Color(0.60716, 0, 0.033153422, 1)
+shader_parameter/pixel_multiplier = 2
+shader_parameter/disable_dither = false

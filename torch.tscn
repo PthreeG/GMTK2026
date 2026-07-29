@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://d2n76unutv0xq"]
+
+[ext_resource type="PackedScene" uid="uid://bmpv3ss05hrto" path="res://Torch.fbx" id="1_pa17o"]
+[ext_resource type="Texture2D" uid="uid://d1yajs7vi0lu5" path="res://Utility/square.png" id="2_s1444"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bi175"]
+albedo_color = Color(0.462291, 0.46229053, 0.46229017, 1)
+
+[sub_resource type="Gradient" id="Gradient_w3qnr"]
+offsets = PackedFloat32Array(0, 0.4921603, 1)
+colors = PackedColorArray(0.7367026, 0.57766235, 0.44690174, 1, 0.64743394, 0.29944044, 0.11733412, 1, 0.14165315, 0.14165312, 0.14165315, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_s3x8h"]
+gradient = SubResource("Gradient_w3qnr")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hskn0"]
+direction = Vector3(0, 1, 0)
+spread = 15.787
+initial_velocity_min = 0.59
+initial_velocity_max = 1.3399999
+gravity = Vector3(0, 0.885, 0)
+linear_accel_min = -0.8900022
+linear_accel_max = 1.9599978
+scale_min = 0.5
+scale_over_velocity_max = 202.56999
+color_ramp = SubResource("GradientTexture1D_s3x8h")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_avsdk"]
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("2_s1444")
+
+[sub_resource type="SphereMesh" id="SphereMesh_evgpy"]
+material = SubResource("StandardMaterial3D_avsdk")
+radius = 0.125
+height = 0.25
+
+[node name="Torch" unique_id=749197905 instance=ExtResource("1_pa17o")]
+
+[node name="Cylinder_003" parent="." index="0" unique_id=811470693]
+surface_material_override/0 = SubResource("StandardMaterial3D_bi175")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." index="1" unique_id=141671999]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0809295, 0)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." index="2" unique_id=1400896353]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.63850725, 0)
+process_material = SubResource("ParticleProcessMaterial_hskn0")
+draw_pass_1 = SubResource("SphereMesh_evgpy")

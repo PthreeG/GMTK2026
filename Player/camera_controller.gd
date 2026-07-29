@@ -15,11 +15,13 @@ const SENSITIVITY: float = 0.1
 
 var twist_input: float = 0.0
 var pitch_input: float = 0.0
+const POST_PROCESSING = preload("uid://td583btmoetb")
 
 
 func _ready() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	height = position.y
+	Settings.post_processing_effects_set.connect(func(turned_on): POST_PROCESSING.set_shader_parameter("disable_dither", turned_on))
 
 
 func _unhandled_input(event: InputEvent) -> void:

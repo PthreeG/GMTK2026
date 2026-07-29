@@ -18,6 +18,7 @@ func _physics_process(_delta: float) -> void:
 
 
 func check_for_player() -> void:
+	if !area_3d.monitoring: return
 	var bodies = area_3d.get_overlapping_bodies()
 	for body in bodies:
 		if body is not Player: continue

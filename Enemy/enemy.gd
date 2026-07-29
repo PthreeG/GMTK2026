@@ -73,18 +73,31 @@ func on_state_changed(new: EnemyStateMachine.STATES, _previous: EnemyStateMachin
 			nav_agent.target_position = global_position
 			animation_player.play("idle")
 			animation_player.speed_scale = 1
+			
+			nav_agent.target_position = global_position
+			los.area_3d.monitoring = false
+			axis_lock_linear_x = true
+			axis_lock_linear_y = true
+			axis_lock_linear_z = true
 		
 		state_machine.STATES.PATROLLING: ## Begin pathing to patrol points and play anim
-			var node_pos := path_finding.get_random_node_from_player_pos().global_position
-			nav_agent.target_position = node_pos
+			patrol_to_new_locaiton()
 			animation_player.play("run")
 			animation_player.speed_scale = 1
 			active_speed = patrolling_speed
+			los.area_3d.monitoring = true
+			axis_lock_linear_x = false
+			axis_lock_linear_y = false
+			axis_lock_linear_z = false
 		
 		## Increase speed of movement and animation
 		## Updating nav pathing to player done in physics_process
 		state_machine.STATES.PURSUING: 
+			axis_lock_linear_x = false
+			axis_lock_linear_y = false
+			axis_lock_linear_z = false
 			animation_player.play("run")
+			los.area_3d.monitoring = true
 			active_speed = pursuing_speed
 			animation_player.speed_scale = 2
 		
@@ -134,11 +147,22 @@ func _on_player_catch_region_body_entered(body: Node3D) -> void:
 
 func on_game_state_changed(current: game_state_controller.STATES, _prev: game_state_controller.STATES) -> void:
 	match current:
+		game_state_controller.STATES.MAIN_MENU:
+			state_machine.current_state = EnemyStateMachine.STATES.IDLE
+			
+		
+		game_state_controller.STATES.ACTIVE:
+			state_machine.current_state = EnemyStateMachine.STATES.PATROLLING
+		
+		
 		game_state_controller.STATES.LOSS:
 			## Prevent bug when game ends and enemy keeps pushing player
 			axis_lock_linear_x = true
 			axis_lock_linear_y = true
 			axis_lock_linear_z = true
+		GameStateController.STATES.WIN:
+			state_machine.current_state = EnemyStateMachine.STATES.IDLE
+
 
 
 func _on_timer_timeout() -> void:
@@ -152,4 +176,4 @@ func patrol_to_new_locaiton() -> void:
 		nav_agent.target_position = player.global_position
 	
 	var node = path_finding.get_random_node_from_player_pos()
-	nav_agent.target_position = path_finding.get_random_node_from_player_pos().global_position
+	nav_agent.target_position = node.global_position
