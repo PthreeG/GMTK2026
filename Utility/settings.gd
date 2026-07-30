@@ -18,16 +18,19 @@ var post_processing_effects: bool = true : set = set_post_processing_effects
 func set_master_volume(val: float) -> void:
 	val = clamp(val, 0, 1)
 	master_volume = val
+	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Master"), master_volume)
 	master_volume_set.emit(master_volume)
 
 func set_music_volume(val: float) -> void:
 	val = clamp(val, 0, 1)
 	music_volume = val
+	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Music"), music_volume)
 	music_volume_set.emit(music_volume)
 
 func set_sfx_volume(val: float) -> void:
 	val = clamp(val, 0, 1)
 	sfx_volume = val
+	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("SFX"), sfx_volume)
 	sfx_volume_set.emit(sfx_volume)
 
 func set_mouse_sensitivity(val: float) -> void:
