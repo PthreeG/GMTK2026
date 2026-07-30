@@ -15,13 +15,16 @@ const SENSITIVITY: float = 0.1
 
 var twist_input: float = 0.0
 var pitch_input: float = 0.0
-const POST_PROCESSING = preload("uid://td583btmoetb")
+var POST_PROCESSING = preload("uid://td583btmoetb")
+@onready var mesh_instance_3d: MeshInstance3D = $MeshInstance3D
 
 
 func _ready() -> void:
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	height = position.y
-	Settings.post_processing_effects_set.connect(func(turned_on): POST_PROCESSING.set_shader_parameter("disable_dither", turned_on))
+	Settings.post_processing_effects_set.connect(_on_settings_post_processing_set)
+	rotation_degrees.y = player_character_body.rotation_degrees.y
+	mesh_instance_3d.show()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -40,3 +43,6 @@ func _physics_process(delta: float) -> void:
 	basis = Basis(smoothed_q)
 	player_character_body.rotation_degrees.y = rotation_degrees.y
 	position = Vector3(player_character_body.position.x, height, player_character_body.position.z)
+
+func _on_settings_post_processing_set(on: bool) -> void:
+	POST_PROCESSING.set_shader_parameter("disable_dither", !on)

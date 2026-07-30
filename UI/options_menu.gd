@@ -4,7 +4,7 @@ extends VBoxContainer
 @onready var slider_music_volume: HSlider = %"Slider-Music_Volume"
 @onready var slider_sfx_volume: HSlider = %"Slider-SFX_Volume"
 @onready var slider_mouse_sensitivity: HSlider = %"Slider-Mouse_Sensitivity"
-@onready var check_box: CheckBox = $HBoxContainer5/CheckBox
+#@onready var check_box: CheckBox = $HBoxContainer5/CheckBox
 
 
 func _on_slider_master_volume_drag_ended(_value_changed: bool) -> void:

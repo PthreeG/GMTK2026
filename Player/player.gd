@@ -6,7 +6,7 @@ class_name Player
 @export var camera: CamController
 
 func _ready() -> void:
-		GameStateController.state_changed.connect(on_game_state_changed)
+	GameStateController.state_changed.connect(on_game_state_changed)
 
 func _physics_process(delta: float) -> void:
 	process_movement(delta)
