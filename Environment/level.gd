@@ -1,7 +1,7 @@
 extends Node3D
 
 
-@onready var label: Label = $UI/Label
+@export var label: Control
 
 
 func _on_area_3d_body_entered(body: Node3D) -> void: ## Endgame circle entery

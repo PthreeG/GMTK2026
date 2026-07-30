@@ -1,8 +1,18 @@
 [gd_scene format=3 uid="uid://cudwha7c6ufff"]
 
+[ext_resource type="Theme" uid="uid://cvocm5yi7158u" path="res://UI/basic_ui_theme.tres" id="1_hrc50"]
 [ext_resource type="Script" uid="uid://c321crdg52tog" path="res://UI/options_menu.gd" id="1_q6x1i"]
+[ext_resource type="Texture2D" uid="uid://daifmxe1m260y" path="res://UI/button_unpressed.png" id="3_odouo"]
+[ext_resource type="Texture2D" uid="uid://dqqmc6mkc0437" path="res://UI/button_pressed.png" id="4_442dt"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hskn0"]
+texture = ExtResource("3_odouo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c08ot"]
+texture = ExtResource("4_442dt")
 
 [node name="Options" type="VBoxContainer" unique_id=1098788086]
+theme = ExtResource("1_hrc50")
 alignment = 1
 script = ExtResource("1_q6x1i")
 metadata/_tab_index = 1
@@ -92,13 +102,18 @@ alignment = 1
 layout_mode = 2
 text = "Post-processing Effects"
 
-[node name="CheckBox" type="CheckBox" parent="HBoxContainer5" unique_id=899669084]
+[node name="Button" type="Button" parent="HBoxContainer5" unique_id=946976875]
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
-size_flags_horizontal = 10
-button_pressed = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_hskn0")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_c08ot")
+theme_override_styles/hover = SubResource("StyleBoxTexture_hskn0")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_c08ot")
+toggle_mode = true
+expand_icon = true
 
 [connection signal="drag_ended" from="HBoxContainer/Slider-Master_Volume" to="." method="_on_slider_master_volume_drag_ended"]
 [connection signal="drag_ended" from="HBoxContainer3/Slider-Music_Volume" to="." method="_on_slider_music_volume_drag_ended"]
 [connection signal="drag_ended" from="HBoxContainer2/Slider-SFX_Volume" to="." method="_on_slider_sfx_volume_drag_ended"]
 [connection signal="drag_ended" from="HBoxContainer4/Slider-Mouse_Sensitivity" to="." method="_on_slider_mouse_sensitivity_drag_ended"]
-[connection signal="toggled" from="HBoxContainer5/CheckBox" to="." method="_on_check_box_toggled"]
+[connection signal="toggled" from="HBoxContainer5/Button" to="." method="_on_check_box_toggled"]

@@ -17,6 +17,8 @@
 [ext_resource type="AudioStream" uid="uid://cyvxqm6nad5lx" path="res://Music/MEDIUM_PROXIMITY.ogg" id="13_vg2hw"]
 [ext_resource type="AudioStream" uid="uid://d3iiu350f8civ" path="res://Music/LOW_PROXIMITY.ogg" id="14_83adp"]
 [ext_resource type="PackedScene" uid="uid://l0tik4mhi750" path="res://UI/main_menu.tscn" id="14_384sh"]
+[ext_resource type="PackedScene" uid="uid://cudwha7c6ufff" path="res://UI/options_menu.tscn" id="15_bi175"]
+[ext_resource type="Theme" uid="uid://cvocm5yi7158u" path="res://UI/basic_ui_theme.tres" id="16_bn8ud"]
 [ext_resource type="PackedScene" uid="uid://r148fefnd0f6" path="res://Rails.fbx" id="17_384sh"]
 [ext_resource type="PackedScene" uid="uid://d2n76unutv0xq" path="res://torch.tscn" id="17_aw2l4"]
 
@@ -177,6 +179,22 @@ lightmap_size_hint = Vector2i(12, 12)
 material = SubResource("ShaderMaterial_83adp")
 flip_faces = true
 size = Vector2(2, 2)
+
+[sub_resource type="GDScript" id="GDScript_f40uw"]
+resource_name = "PPE_Controller"
+script/source = "extends MeshInstance3D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	Settings.post_processing_effects_set.connect(on_post_processing_effects_set)
+
+
+func on_post_processing_effects_set(on: bool):
+	if on:
+		show()
+	else: hide()
+"
 
 [sub_resource type="Curve3D" id="Curve3D_dmw10"]
 _data = {
@@ -405,8 +423,9 @@ fog_density = 0.1103
 [sub_resource type="SphereShape3D" id="SphereShape3D_hskn0"]
 radius = 10.082019
 
-[node name="Node3D" type="Node3D" unique_id=1670413850]
+[node name="Node3D" type="Node3D" unique_id=1670413850 node_paths=PackedStringArray("label")]
 script = ExtResource("1_05x8u")
+label = NodePath("UI/Control/Options")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=32825124]
 transform = Transform3D(0.51001424, 0, 0, 0, 0.99999917, 0, 0, 0, 0.42282626, 0, 0, 0)
@@ -3859,6 +3878,7 @@ player_character_body = NodePath("../Player")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D" unique_id=107688378]
 mesh = SubResource("QuadMesh_hskn0")
 surface_material_override/0 = SubResource("ShaderMaterial_83adp")
+script = SubResource("GDScript_f40uw")
 
 [node name="Path3D" type="Path3D" parent="." unique_id=1225177849]
 curve = SubResource("Curve3D_dmw10")
@@ -3876,6 +3896,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("16_bn8ud")
 script = ExtResource("7_ac3lh")
 
 [node name="TextureRect" type="TextureRect" parent="UI/Control" unique_id=75790290]
@@ -3976,21 +3997,27 @@ libraries/ = SubResource("AnimationLibrary_ojni7")
 [node name="MainMenu" parent="UI/Control" unique_id=331416955 instance=ExtResource("14_384sh")]
 layout_mode = 1
 
-[node name="Label" type="Label" parent="UI" unique_id=933466905]
+[node name="Options" parent="UI/Control" unique_id=1098788086 instance=ExtResource("15_bi175")]
 visible = false
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -8.5
-offset_right = 20.0
-offset_bottom = 8.5
+offset_left = -117.0
+offset_top = -64.5
+offset_right = 117.0
+offset_bottom = 64.5
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("16_bn8ud")
+
+[node name="Label2" type="Label" parent="UI/Control/Options" unique_id=933466905]
+layout_mode = 2
 theme_override_font_sizes/font_size = 83
 text = "PRESS ESC"
+horizontal_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="UI" unique_id=454592072]
 anchors_preset = 9
