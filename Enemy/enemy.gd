@@ -91,7 +91,9 @@ func on_state_changed(new: EnemyStateMachine.STATES, _previous: EnemyStateMachin
 			active_speed = patrolling_speed
 			los.area_3d.monitoring = true
 			lock_all_linear_axis(false)
-			create_tween().tween_property(animation_tree, "parameters/AnimationNodeBlendSpace1D/blend_position", 1, 0.5)
+			var t := create_tween().set_parallel()
+			t.tween_property(animation_tree, "parameters/AnimationNodeBlendSpace1D/blend_position", 1, 0.5)
+			t.tween_property(animation_tree, "parameters/TimeScale/scale", 6, 0.5)
 			mouth_asp.stream = passive_click
 			
 		
@@ -99,7 +101,9 @@ func on_state_changed(new: EnemyStateMachine.STATES, _previous: EnemyStateMachin
 		## Updating nav pathing to player done in physics_process
 		state_machine.STATES.PURSUING: 
 			lock_all_linear_axis(false)
-			create_tween().tween_property(animation_tree, "parameters/AnimationNodeBlendSpace1D/blend_position", -1, 0.5)
+			var t := create_tween().set_parallel()
+			t.tween_property(animation_tree, "parameters/AnimationNodeBlendSpace1D/blend_position", -1, 0.5)
+			t.tween_property(animation_tree, "parameters/TimeScale/scale", 7.5, 0.5)
 			los.area_3d.monitoring = true
 			active_speed = pursuing_speed
 			if mouth_asp.playing == true:
