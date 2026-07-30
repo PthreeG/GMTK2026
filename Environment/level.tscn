@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://dugv2lh1dk2ra" path="res://Player/camera_controller.gd" id="4_ac3lh"]
 [ext_resource type="Script" uid="uid://cch6ca2rjw1wc" path="res://Environment/fail_screen.gd" id="7_ac3lh"]
 [ext_resource type="Script" uid="uid://y3r301nk8k5b" path="res://Enemy/AI/path_finding.gd" id="7_ojni7"]
+[ext_resource type="PackedScene" uid="uid://dhntpehv5saa4" path="res://monster_anims.tscn" id="8_xgbfj"]
 [ext_resource type="Script" uid="uid://du5kiu3vh8e8x" path="res://Player/broken_feet.gd" id="10_384sh"]
 [ext_resource type="AudioStream" uid="uid://cn0yunsx8csek" path="res://Music/HIGH_PROXIMITY.ogg" id="12_5rkwn"]
 [ext_resource type="Material" uid="uid://td583btmoetb" path="res://post_processing.tres" id="12_bi175"]
@@ -157,6 +158,48 @@ points = PackedVector3Array(0, 0, 0, 5, 0, 10, -5, 0, 10, 0, -0.505, 0)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_c08ot"]
 radius = 0.9355469
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0pjer"]
+animation = &"Running"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0r5xe"]
+animation = &"Walking"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_csam0"]
+value_label = "-1"
+blend_point_0/node = SubResource("AnimationNodeAnimation_0pjer")
+blend_point_0/pos = -0.90000004
+blend_point_0/name = &"Running"
+blend_point_1/node = SubResource("AnimationNodeAnimation_0r5xe")
+blend_point_1/pos = 0.90000004
+blend_point_1/name = &"Walking"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_xgbfj"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_xgbfj"]
+graph_offset = Vector2(-492, -17.333334)
+nodes/output/position = Vector2(506.66666, 160)
+nodes/AnimationNodeBlendSpace1D/node = SubResource("AnimationNodeBlendSpace1D_csam0")
+nodes/AnimationNodeBlendSpace1D/position = Vector2(-426.66666, 133.33333)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_xgbfj")
+nodes/TimeScale/position = Vector2(213.33333, 133.33333)
+node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"AnimationNodeBlendSpace1D"]
+
+[sub_resource type="GDScript" id="GDScript_csam0"]
+resource_name = "QuickCamController"
+script/source = "extends Camera3D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	if Input.is_key_pressed(KEY_2):
+		current = true
+"
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hskn0"]
 
@@ -390,7 +433,7 @@ sky = SubResource("Sky_ij88s")
 ambient_light_source = 2
 ambient_light_color = Color(0.1319848, 0.1319848, 0.1319848, 1)
 ambient_light_sky_contribution = 0.0
-ambient_light_energy = 1.33
+ambient_light_energy = 2.4
 fog_density = 0.1103
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_hskn0"]
@@ -3584,19 +3627,22 @@ transform = Transform3D(0.96620095, 0, -0.9654468, 0, 1, 0, 0.25779152, 0, 3.618
 [node name="MeshInstance3D4" parent="NavigationRegion3D/Blocks2" unique_id=1019062313 instance=ExtResource("2_8rrtq")]
 transform = Transform3D(0.8086174, 0, -4.6603656, 0, 1, 0, 0.58833516, 0, 6.4052815, -15.227242, 3.6554856, 164.93927)
 
-[node name="Enemy" type="CharacterBody3D" parent="." unique_id=147674093 node_paths=PackedStringArray("player", "path")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.26476, 1.0250055, -4.060734)
+[node name="Enemy" type="CharacterBody3D" parent="." unique_id=147674093 node_paths=PackedStringArray("player", "path", "animation_player", "animation_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.389662, 1.0250074, -2.8471909)
 rotation_edit_mode = 1
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_7ckbr")
-player = NodePath("../Character")
+player = NodePath("../Player")
 path = NodePath("../Path3D")
+animation_player = NodePath("MonsterAnims/AnimationPlayer")
+animation_tree = NodePath("MonsterAnims/AnimationTree")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy" unique_id=72233242]
 shape = SubResource("CapsuleShape3D_c08ot")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Enemy" unique_id=1152008971]
+visible = false
 mesh = SubResource("CapsuleMesh_hskn0")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Enemy/MeshInstance3D" unique_id=38011629]
@@ -3805,7 +3851,63 @@ gizmo_extents = 3.6
 wait_time = 6.0
 autostart = true
 
-[node name="Character" type="CharacterBody3D" parent="." unique_id=1461836089 node_paths=PackedStringArray("camera") groups=["Player"]]
+[node name="MonsterAnims" parent="Enemy" unique_id=615879035 instance=ExtResource("8_xgbfj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, -1, 0)
+
+[node name="Armature_001" parent="Enemy/MonsterAnims" index="1" unique_id=861786313]
+transform = Transform3D(-5.3435366e-07, -12.2245865, -5.3435366e-07, 0, -5.3435366e-07, 12.2245865, -12.2245865, 5.3435366e-07, 2.335734e-14, 1.032563, 1.2256563, 0.045070887)
+
+[node name="Skeleton3D" parent="Enemy/MonsterAnims/Armature_001" index="0" unique_id=583672891]
+bones/0/position = Vector3(1.1920929e-09, 3.653014e-10, -0.0011294038)
+bones/0/rotation = Quaternion(0.7070241, -0.007991457, 0.010815829, 0.7070616)
+bones/1/rotation = Quaternion(0.0040986068, 0.020468261, -0.16555892, 0.98597896)
+bones/3/rotation = Quaternion(0.2678479, -0.0835494, 0.006930153, 0.9598068)
+bones/4/rotation = Quaternion(-0.38029942, 0.11378382, -0.038423758, 0.9170329)
+bones/5/rotation = Quaternion(-0.76886535, 0.002235779, -0.25253853, 0.5874227)
+bones/6/rotation = Quaternion(0.26776916, -0.1791071, 0.09759379, 0.94164526)
+bones/13/rotation = Quaternion(0.07239427, -0.68896174, 0.70601565, -0.14708075)
+bones/14/rotation = Quaternion(0.22345443, 0.77248275, 0.5892558, -0.07820655)
+bones/15/rotation = Quaternion(-0.18218689, 0.024848033, 0.09718831, 0.97813344)
+bones/16/rotation = Quaternion(0.43662736, 0.60390395, -0.048844174, 0.6650344)
+bones/17/rotation = Quaternion(0.33486244, 0.0008631245, 0.07582713, 0.9392107)
+bones/40/rotation = Quaternion(0.2426846, 0.7026951, 0.6673345, -0.044594273)
+bones/41/rotation = Quaternion(0.08689857, -0.26613125, -0.17336649, 0.94422823)
+bones/42/rotation = Quaternion(0.293678, -0.1887352, 0.32899532, 0.8774363)
+bones/43/rotation = Quaternion(0.21893975, -0.0173856, -0.0034677954, 0.9755774)
+bones/65/position = Vector3(0.04166408, -0.0007907849, 0.03745243)
+bones/67/position = Vector3(-0.010904896, 0.03646751, -0.03896588)
+bones/69/position = Vector3(1.1920929e-09, 3.653014e-10, -0.0011294038)
+bones/69/rotation = Quaternion(-0.05019479, 0.92044324, -0.38095963, 0.0716553)
+bones/70/rotation = Quaternion(0.008790204, 0.94958156, 0.2999295, -0.09088538)
+bones/71/rotation = Quaternion(0.03773531, 0.0044913287, 0.07332776, 0.9965837)
+bones/72/rotation = Quaternion(0.03479944, 0.007841629, 0.3023029, 0.9525443)
+bones/73/rotation = Quaternion(-0.078850955, 0.030413, 0.2632549, 0.9610175)
+bones/87/position = Vector3(-0.03602123, 0.026944928, -0.06765918)
+bones/89/position = Vector3(1.1920929e-09, -3.6530146e-10, -0.0011294038)
+bones/89/rotation = Quaternion(0.92044324, -0.05019486, 0.071655385, -0.3809596)
+bones/90/rotation = Quaternion(0.20986983, 0.92522913, 0.31522813, 0.023172172)
+bones/91/rotation = Quaternion(0.039391413, -0.0064754942, 0.16408105, 0.98563886)
+bones/92/rotation = Quaternion(0.027279934, -0.0051158806, -0.23704639, 0.97110176)
+bones/93/rotation = Quaternion(-0.10833229, -0.028648395, -0.2748161, 0.95494485)
+bones/107/position = Vector3(0.02296826, -0.02694493, -0.07652233)
+bones/109/position = Vector3(0.025516607, -0.0003764385, 0.046790853)
+bones/109/rotation = Quaternion(-0.6116846, 0.6194219, 0.354742, -0.34105206)
+bones/111/position = Vector3(0.047872256, -0.02606366, -0.027581353)
+bones/111/rotation = Quaternion(0.7026429, 0.07932851, 0.07932851, 0.7026429)
+
+[node name="Cube_008" parent="Enemy/MonsterAnims" index="2" unique_id=1450069246]
+transform = Transform3D(-0.84597033, 1.3343402e-05, -10.734137, 10.734137, -4.6920402e-07, -0.84597033, -1.5161127e-06, -10.767421, -1.3265291e-05, 0.49342322, 0.7488169, 0.05438822)
+
+[node name="AnimationTree" parent="Enemy/MonsterAnims" index="4" unique_id=772140294]
+tree_root = SubResource("AnimationNodeBlendTree_xgbfj")
+parameters/AnimationNodeBlendSpace1D/blend_position = 1.0
+parameters/TimeScale/scale = 6.350000000000001
+
+[node name="Camera3D2" type="Camera3D" parent="Enemy" unique_id=1854944851]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.68486595, 1.856863)
+script = SubResource("GDScript_csam0")
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1461836089 node_paths=PackedStringArray("camera") groups=["Player"]]
 transform = Transform3D(0.99999976, 0, 0, 0, 1, 0, 0, 0, 0.99999976, -3.0288634, 1.0000019, 66.49578)
 collision_layer = 2
 collision_mask = 5
@@ -3814,31 +3916,31 @@ axis_lock_angular_y = true
 script = ExtResource("2_7ckbr")
 camera = NodePath("../Camera3D")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Character" unique_id=679910232]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=679910232]
 shape = SubResource("CapsuleShape3D_hskn0")
 
-[node name="HiddenOnReady" type="Sprite3D" parent="Character" unique_id=612623605]
+[node name="HiddenOnReady" type="Sprite3D" parent="Player" unique_id=612623605]
 transform = Transform3D(0.40127248, 0, -2.3283064e-10, 0, 0.41953182, 0, 0, 0, 1.001456, 0.00010561943, 0, 0.043477774)
 texture = ExtResource("3_baloa")
 script = SubResource("GDScript_hskn0")
 
-[node name="HiddenOnReady2" type="Sprite3D" parent="Character" unique_id=2097156302]
+[node name="HiddenOnReady2" type="Sprite3D" parent="Player" unique_id=2097156302]
 transform = Transform3D(0.40811208, 0, 0, 0, 0.4046207, 0, 1.1641532e-10, 0, 1.0014392, 4.7683716e-07, 0, 0.013974428)
 modulate = Color(0, 0, 0, 1)
 texture = ExtResource("3_baloa")
 script = SubResource("GDScript_hskn0")
 
-[node name="BrokenFeet" type="Node" parent="Character" unique_id=645966902]
+[node name="BrokenFeet" type="Node" parent="Player" unique_id=645966902]
 script = ExtResource("10_384sh")
 metadata/_custom_type_script = "uid://du5kiu3vh8e8x"
 
-[node name="CanWalkTimer" type="Timer" parent="Character/BrokenFeet" unique_id=808271062]
+[node name="CanWalkTimer" type="Timer" parent="Player/BrokenFeet" unique_id=808271062]
 unique_name_in_owner = true
 process_callback = 0
 wait_time = 12.0
 one_shot = true
 
-[node name="NoWalkTimer" type="Timer" parent="Character/BrokenFeet" unique_id=590038369]
+[node name="NoWalkTimer" type="Timer" parent="Player/BrokenFeet" unique_id=590038369]
 unique_name_in_owner = true
 process_callback = 0
 wait_time = 3.0
@@ -3846,8 +3948,9 @@ one_shot = true
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1167741838 node_paths=PackedStringArray("player_character_body")]
 transform = Transform3D(0.8833247, 0, 0.46876168, 0, 1, 0, -0.46876168, 0, 0.8833247, -3.0288634, 1.4950019, 66.49578)
+current = true
 script = ExtResource("4_ac3lh")
-player_character_body = NodePath("../Character")
+player_character_body = NodePath("../Player")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D" unique_id=107688378]
 process_mode = 3
@@ -3855,9 +3958,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.9604645e-08, 0, -5.6043644)
 visible = false
 mesh = SubResource("QuadMesh_hskn0")
 surface_material_override/0 = ExtResource("12_bi175")
-
-[node name="Player" type="Node3D" parent="." unique_id=1011118384]
-transform = Transform3D(-0.99924135, 0, 0.03894323, 0, 1, 0, -0.03894323, 0, -0.99924135, -2.9770868, 1.9073486e-06, 66.81396)
 
 [node name="Path3D" type="Path3D" parent="." unique_id=1225177849]
 curve = SubResource("Curve3D_dmw10")
@@ -4013,7 +4113,7 @@ stream = SubResource("AudioStreamInteractive_j3pel")
 autoplay = true
 bus = &"Music"
 script = SubResource("GDScript_c08ot")
-player = NodePath("../Character")
+player = NodePath("../Player")
 enemy = NodePath("../Enemy")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2118315238]
@@ -4128,8 +4228,10 @@ shape = SubResource("SphereShape3D_hskn0")
 [connection signal="found_player" from="Enemy/LOS" to="Enemy" method="_on_los_found_player"]
 [connection signal="body_entered" from="Enemy/PlayerCatchRegion" to="Enemy" method="_on_player_catch_region_body_entered"]
 [connection signal="timeout" from="Enemy/EnemyPathFinding/Timer" to="Enemy" method="_on_timer_timeout"]
-[connection signal="timeout" from="Character/BrokenFeet/CanWalkTimer" to="Character/BrokenFeet" method="_on_can_walk_timer_timeout"]
-[connection signal="timeout" from="Character/BrokenFeet/NoWalkTimer" to="Character/BrokenFeet" method="_on_no_walk_timer_timeout"]
+[connection signal="timeout" from="Player/BrokenFeet/CanWalkTimer" to="Player/BrokenFeet" method="_on_can_walk_timer_timeout"]
+[connection signal="timeout" from="Player/BrokenFeet/NoWalkTimer" to="Player/BrokenFeet" method="_on_no_walk_timer_timeout"]
 [connection signal="pressed" from="UI/Control/Loss Screen/Button" to="UI/Control" method="_on_button_pressed"]
 [connection signal="pressed" from="UI/Control/Win Screen/Button" to="UI/Control" method="_on_button_pressed"]
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+
+[editable path="Enemy/MonsterAnims"]

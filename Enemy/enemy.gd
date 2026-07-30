@@ -10,11 +10,11 @@ class_name Enemy
 @export var player_camera_grab_speed: float = 5
 var grab_camera: bool = false
 @export var patrol_to_player_chance: float = 0.1
-
+@export var animation_player: AnimationPlayer
+@export var animation_tree: AnimationTree
 
 @onready var camera_look_at: Marker3D = $CameraLookAt
 @onready var los: EnemyLOS = $LOS
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var state_machine: EnemyStateMachine = $EnemyStateMachine
 @onready var path_finding: EnemyPathFinding = $EnemyPathFinding
@@ -26,10 +26,12 @@ func _ready() -> void:
 	on_state_changed(state_machine.current_state, state_machine.current_state)
 	GameStateController.state_changed.connect(on_game_state_changed)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if grab_camera:
-		var target_transform = player.camera.transform.looking_at(camera_look_at.global_position, Vector3.UP)
-		transform.basis = transform.basis.slerp(target_transform.basis, player_camera_grab_speed * delta)
+		player.camera.look_at(camera_look_at.global_position)
+		player.camera.fov = 15
+		#var target_transform = player.camera.transform.looking_at(camera_look_at.global_position, Vector3.UP, true)
+		#player.camera.global_basis = transform.basis.slerp(target_transform., player_camera_grab_speed * _delta)
 
 
 func _physics_process(delta: float) -> void:
@@ -71,38 +73,33 @@ func on_state_changed(new: EnemyStateMachine.STATES, _previous: EnemyStateMachin
 	match new:
 		state_machine.STATES.IDLE: ## Stop navigation and play idle animation
 			nav_agent.target_position = global_position
-			animation_player.play("idle")
-			animation_player.speed_scale = 1
+			#animation_player.speed_scale = 1
+			animation_player.pause()
 			
 			nav_agent.target_position = global_position
 			los.area_3d.monitoring = false
-			axis_lock_linear_x = true
-			axis_lock_linear_y = true
-			axis_lock_linear_z = true
+			lock_all_linear_axis(true)
 		
 		state_machine.STATES.PATROLLING: ## Begin pathing to patrol points and play anim
 			patrol_to_new_locaiton()
-			animation_player.play("run")
-			animation_player.speed_scale = 1
 			active_speed = patrolling_speed
 			los.area_3d.monitoring = true
-			axis_lock_linear_x = false
-			axis_lock_linear_y = false
-			axis_lock_linear_z = false
+			lock_all_linear_axis(false)
+			create_tween().tween_property(animation_tree, "parameters/AnimationNodeBlendSpace1D/blend_position", 1, 0.5)
 		
 		## Increase speed of movement and animation
 		## Updating nav pathing to player done in physics_process
 		state_machine.STATES.PURSUING: 
-			axis_lock_linear_x = false
-			axis_lock_linear_y = false
-			axis_lock_linear_z = false
-			animation_player.play("run")
+			lock_all_linear_axis(false)
+			create_tween().tween_property(animation_tree, "parameters/AnimationNodeBlendSpace1D/blend_position", -1, 0.5)
 			los.area_3d.monitoring = true
 			active_speed = pursuing_speed
-			animation_player.speed_scale = 2
+			#animation_player.speed_scale = 2
 		
 		state_machine.STATES.ATTACKING: ## Disable player movement, grab camera, play animation, set game state to LOSS
-			nav_agent.target_position = global_position
+			lock_all_linear_axis(true)
+			
+			axis_lock_angular_y = true
 			
 			## Freeze player movemnt
 			player.axis_lock_linear_x = true
@@ -114,8 +111,8 @@ func on_state_changed(new: EnemyStateMachine.STATES, _previous: EnemyStateMachin
 			grab_camera = true
 			
 			
-			animation_player.play("attack")
-			animation_player.speed_scale = 1
+			#animation_player.play("attack")
+			#animation_player.speed_scale = 1
 			get_tree().create_timer(1.5).timeout.connect(func(): GameStateController.current_state = GameStateController.STATES.LOSS)
 			
 

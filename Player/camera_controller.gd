@@ -35,6 +35,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if Input.is_key_pressed(KEY_1):
+		current = true
+	
 	if !cam_movement_enabled: return
 	var current_q = basis.get_rotation_quaternion()
 	var twist_q = Quaternion(Vector3.UP, deg_to_rad(twist_input))
