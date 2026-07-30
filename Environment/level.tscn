@@ -3892,6 +3892,16 @@ texture = SubResource("GradientTexture1D_hskn0")
 [node name="MarginContainer2" parent="UI/Control/TextureRect" unique_id=1857440503 instance=ExtResource("15_bn8ud")]
 layout_mode = 0
 anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 476.0
+offset_bottom = 136.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="Loss Screen" type="VBoxContainer" parent="UI/Control" unique_id=2139627683]
 modulate = Color(1, 1, 1, 0)
@@ -3956,7 +3966,6 @@ root_node = NodePath("../..")
 libraries/ = SubResource("AnimationLibrary_ojni7")
 
 [node name="MainMenu" parent="UI/Control" unique_id=331416955 instance=ExtResource("14_384sh")]
-visible = false
 layout_mode = 1
 
 [node name="PauseMenu" parent="UI/Control" unique_id=1098788086 instance=ExtResource("15_bi175")]
