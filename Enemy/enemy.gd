@@ -18,9 +18,13 @@ var grab_camera: bool = false
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var state_machine: EnemyStateMachine = $EnemyStateMachine
 @onready var path_finding: EnemyPathFinding = $EnemyPathFinding
+@onready var mouth_asp: AudioStreamPlayer3D = $MouthASP
 
 var current_path_index: int = 0
 
+@export var aggresive_click: AudioStream
+@export var passive_click: AudioStream
+@export var click_chance: float = 0.2
 
 func _ready() -> void:
 	on_state_changed(state_machine.current_state, state_machine.current_state)
@@ -30,6 +34,7 @@ func _process(_delta: float) -> void:
 	if grab_camera:
 		player.camera.look_at(camera_look_at.global_position)
 		player.camera.fov = 15
+		look_at(player.camera.global_position)
 		#var target_transform = player.camera.transform.looking_at(camera_look_at.global_position, Vector3.UP, true)
 		#player.camera.global_basis = transform.basis.slerp(target_transform., player_camera_grab_speed * _delta)
 
@@ -78,6 +83,7 @@ func on_state_changed(new: EnemyStateMachine.STATES, _previous: EnemyStateMachin
 			
 			nav_agent.target_position = global_position
 			los.area_3d.monitoring = false
+			
 			lock_all_linear_axis(true)
 		
 		state_machine.STATES.PATROLLING: ## Begin pathing to patrol points and play anim
@@ -86,6 +92,8 @@ func on_state_changed(new: EnemyStateMachine.STATES, _previous: EnemyStateMachin
 			los.area_3d.monitoring = true
 			lock_all_linear_axis(false)
 			create_tween().tween_property(animation_tree, "parameters/AnimationNodeBlendSpace1D/blend_position", 1, 0.5)
+			mouth_asp.stream = passive_click
+			
 		
 		## Increase speed of movement and animation
 		## Updating nav pathing to player done in physics_process
@@ -94,6 +102,10 @@ func on_state_changed(new: EnemyStateMachine.STATES, _previous: EnemyStateMachin
 			create_tween().tween_property(animation_tree, "parameters/AnimationNodeBlendSpace1D/blend_position", -1, 0.5)
 			los.area_3d.monitoring = true
 			active_speed = pursuing_speed
+			if mouth_asp.playing == true:
+				mouth_asp.stop()
+			mouth_asp.stream = aggresive_click
+			mouth_asp.play()
 			#animation_player.speed_scale = 2
 		
 		state_machine.STATES.ATTACKING: ## Disable player movement, grab camera, play animation, set game state to LOSS
@@ -115,6 +127,26 @@ func on_state_changed(new: EnemyStateMachine.STATES, _previous: EnemyStateMachin
 			#animation_player.speed_scale = 1
 			get_tree().create_timer(1.5).timeout.connect(func(): GameStateController.current_state = GameStateController.STATES.LOSS)
 			
+
+func on_game_state_changed(current: game_state_controller.STATES, _prev: game_state_controller.STATES) -> void:
+	match current:
+		game_state_controller.STATES.MAIN_MENU:
+			state_machine.current_state = EnemyStateMachine.STATES.IDLE
+			
+		
+		game_state_controller.STATES.ACTIVE:
+			state_machine.current_state = EnemyStateMachine.STATES.PATROLLING
+			lock_all_linear_axis(false)
+			
+		GameStateController.STATES.PAUSED:
+			lock_all_linear_axis(true)
+		
+		game_state_controller.STATES.LOSS:
+			## Prevent bug when game ends and enemy keeps pushing player
+			lock_all_linear_axis(true)
+		GameStateController.STATES.WIN:
+			state_machine.current_state = EnemyStateMachine.STATES.IDLE
+
 
 
 func nav_safe() -> void:
@@ -142,27 +174,6 @@ func _on_player_catch_region_body_entered(body: Node3D) -> void:
 	state_machine.current_state = state_machine.STATES.ATTACKING
 
 
-func on_game_state_changed(current: game_state_controller.STATES, _prev: game_state_controller.STATES) -> void:
-	match current:
-		game_state_controller.STATES.MAIN_MENU:
-			state_machine.current_state = EnemyStateMachine.STATES.IDLE
-			
-		
-		game_state_controller.STATES.ACTIVE:
-			state_machine.current_state = EnemyStateMachine.STATES.PATROLLING
-			lock_all_linear_axis(false)
-			
-		GameStateController.STATES.PAUSED:
-			lock_all_linear_axis(true)
-		
-		game_state_controller.STATES.LOSS:
-			## Prevent bug when game ends and enemy keeps pushing player
-			lock_all_linear_axis(true)
-		GameStateController.STATES.WIN:
-			state_machine.current_state = EnemyStateMachine.STATES.IDLE
-
-
-
 func _on_timer_timeout() -> void:
 	if state_machine.current_state != state_machine.STATES.PATROLLING: return
 	if player.global_position.distance_squared_to(nav_agent.target_position) > path_finding.player_node_range_sqrd:
@@ -180,3 +191,9 @@ func lock_all_linear_axis(lock: bool) -> void:
 	axis_lock_linear_x = lock
 	axis_lock_linear_y = lock
 	axis_lock_linear_z = lock
+
+
+func _on_click_timer_timeout() -> void:
+	if mouth_asp.playing: return
+	if click_chance > randf():
+		mouth_asp.play()

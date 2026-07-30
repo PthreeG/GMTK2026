@@ -3,18 +3,19 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bmpv3ss05hrto"
-path="res://.godot/imported/Torch.fbx-f6e608a1a9fa5bd396090bd97f2f81a9.scn"
+uid="uid://r148fefnd0f6"
+path="res://.godot/imported/Rails.fbx-90a3af52a1f2f07b5ce6f0238c22479d.scn"
 
 [deps]
 
-source_file="res://Torch.fbx"
-dest_files=["res://.godot/imported/Torch.fbx-f6e608a1a9fa5bd396090bd97f2f81a9.scn"]
+source_file="res://Environment/Props/Rails.fbx"
+dest_files=["res://.godot/imported/Rails.fbx-90a3af52a1f2f07b5ce6f0238c22479d.scn"]
 
 [params]
 
 nodes/root_type=""
 nodes/root_name=""
+nodes/root_script=null
 mesh_library/use_node_names_as_mesh_names=false
 array_mesh/deduplicate_surfaces=true
 nodes/apply_root_scale=true

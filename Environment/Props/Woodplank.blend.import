@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://ty06yplbwd4i"
-path="res://.godot/imported/Woodplank.blend-6bf1511e6d187ccdfff76e0182e25a15.scn"
+path="res://.godot/imported/Woodplank.blend-5df215ad144708fede885bbe05225e5e.scn"
 
 [deps]
 
-source_file="res://Woodplank.blend"
-dest_files=["res://.godot/imported/Woodplank.blend-6bf1511e6d187ccdfff76e0182e25a15.scn"]
+source_file="res://Environment/Props/Woodplank.blend"
+dest_files=["res://.godot/imported/Woodplank.blend-5df215ad144708fede885bbe05225e5e.scn"]
 
 [params]
 

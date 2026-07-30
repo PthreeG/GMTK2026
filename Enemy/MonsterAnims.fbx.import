@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cm2rvoav82rw0"
-path="res://.godot/imported/MonsterAnims.fbx-7215131c5bbf6997cf0257b4c6d5463e.scn"
+path="res://.godot/imported/MonsterAnims.fbx-b8da98d5800b24834aebba176770afeb.scn"
 
 [deps]
 
-source_file="res://MonsterAnims.fbx"
-dest_files=["res://.godot/imported/MonsterAnims.fbx-7215131c5bbf6997cf0257b4c6d5463e.scn"]
+source_file="res://Enemy/MonsterAnims.fbx"
+dest_files=["res://.godot/imported/MonsterAnims.fbx-b8da98d5800b24834aebba176770afeb.scn"]
 
 [params]
 

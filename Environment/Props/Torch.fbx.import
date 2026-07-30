@@ -3,18 +3,19 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bg72wfc5l8iu7"
-path="res://.godot/imported/Pickaxe.fbx-6604ff2dc82a6310b75326b6994b7d7f.scn"
+uid="uid://bmpv3ss05hrto"
+path="res://.godot/imported/Torch.fbx-5def6d1188ed0723f111a0caccfdd06f.scn"
 
 [deps]
 
-source_file="res://Pickaxe.fbx"
-dest_files=["res://.godot/imported/Pickaxe.fbx-6604ff2dc82a6310b75326b6994b7d7f.scn"]
+source_file="res://Environment/Props/Torch.fbx"
+dest_files=["res://.godot/imported/Torch.fbx-5def6d1188ed0723f111a0caccfdd06f.scn"]
 
 [params]
 
 nodes/root_type=""
 nodes/root_name=""
+nodes/root_script=null
 mesh_library/use_node_names_as_mesh_names=false
 array_mesh/deduplicate_surfaces=true
 nodes/apply_root_scale=true

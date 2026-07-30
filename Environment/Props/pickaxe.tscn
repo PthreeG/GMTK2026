@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bdqfdg8xnbqki"]
 
-[ext_resource type="PackedScene" uid="uid://bg72wfc5l8iu7" path="res://Pickaxe.fbx" id="1_40syq"]
+[ext_resource type="PackedScene" uid="uid://bg72wfc5l8iu7" path="res://Environment/Props/Pickaxe.fbx" id="1_40syq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v18up"]
 albedo_color = Color(0.37403274, 0.24648911, 0.111293696, 1)

@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://td583btmoetb"]
 
-[ext_resource type="Shader" uid="uid://djxefgraovfnp" path="res://postprocess.gdshader" id="1_hjfdk"]
+[ext_resource type="Shader" uid="uid://djxefgraovfnp" path="res://PostProcessing/postprocess.gdshader" id="1_hjfdk"]
 
 [resource]
 render_priority = 0
