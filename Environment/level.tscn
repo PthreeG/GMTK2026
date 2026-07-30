@@ -18,6 +18,7 @@
 [ext_resource type="AudioStream" uid="uid://d3iiu350f8civ" path="res://Music/LOW_PROXIMITY.ogg" id="14_83adp"]
 [ext_resource type="PackedScene" uid="uid://l0tik4mhi750" path="res://UI/main_menu.tscn" id="14_384sh"]
 [ext_resource type="PackedScene" uid="uid://cudwha7c6ufff" path="res://UI/options_menu.tscn" id="15_bi175"]
+[ext_resource type="PackedScene" uid="uid://dnmax5mtp7xlh" path="res://UI/credits.tscn" id="15_bn8ud"]
 [ext_resource type="Theme" uid="uid://cvocm5yi7158u" path="res://UI/basic_ui_theme.tres" id="16_bn8ud"]
 [ext_resource type="PackedScene" uid="uid://r148fefnd0f6" path="res://Rails.fbx" id="17_384sh"]
 [ext_resource type="PackedScene" uid="uid://d2n76unutv0xq" path="res://torch.tscn" id="17_aw2l4"]
@@ -184,9 +185,6 @@ colors = PackedColorArray(0, 0, 0, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_hskn0"]
 gradient = SubResource("Gradient_c08ot")
-
-[sub_resource type="LabelSettings" id="LabelSettings_hskn0"]
-font_size = 30
 
 [sub_resource type="LabelSettings" id="LabelSettings_c08ot"]
 font_size = 60
@@ -3891,27 +3889,9 @@ grow_vertical = 2
 mouse_filter = 2
 texture = SubResource("GradientTexture1D_hskn0")
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/Control/TextureRect" unique_id=1586049896]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -40.0
-grow_horizontal = 0
-grow_vertical = 0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Control/TextureRect/MarginContainer" unique_id=304819004]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="UI/Control/TextureRect/MarginContainer/VBoxContainer" unique_id=751685286]
-layout_mode = 2
-text = "PthreeG- Programming and development
-Juuh - Concept artist and level design
-liltlet - Audio and Team Lead"
-label_settings = SubResource("LabelSettings_hskn0")
+[node name="MarginContainer2" parent="UI/Control/TextureRect" unique_id=1857440503 instance=ExtResource("15_bn8ud")]
+layout_mode = 0
+anchors_preset = 0
 
 [node name="Loss Screen" type="VBoxContainer" parent="UI/Control" unique_id=2139627683]
 modulate = Color(1, 1, 1, 0)
@@ -3976,6 +3956,7 @@ root_node = NodePath("../..")
 libraries/ = SubResource("AnimationLibrary_ojni7")
 
 [node name="MainMenu" parent="UI/Control" unique_id=331416955 instance=ExtResource("14_384sh")]
+visible = false
 layout_mode = 1
 
 [node name="PauseMenu" parent="UI/Control" unique_id=1098788086 instance=ExtResource("15_bi175")]

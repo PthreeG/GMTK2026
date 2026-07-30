@@ -19,7 +19,9 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer" unique_id=1149632283]
 layout_mode = 2
-text = "PthreeG- Programming and development
+text = "liltlet - Audio and Team Lead
+alicethefruitbat - Music Composition
 Juuh - Concept artist and level design
-liltlet - Audio and Team Lead"
+PthreeG- Programming and development
+Uqnou - 3D animation and modelling"
 label_settings = SubResource("LabelSettings_hskn0")
