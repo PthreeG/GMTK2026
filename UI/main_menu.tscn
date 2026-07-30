@@ -68,6 +68,28 @@ text = "START"
 layout_mode = 2
 text = "OPTIONS"
 
+[node name="MarginContainer2" type="MarginContainer" parent="TabContainer/Main" unique_id=1040724592]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -476.0
+offset_top = -136.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Main/MarginContainer2" unique_id=1365665758]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/Main/MarginContainer2/VBoxContainer" unique_id=1846173883]
+layout_mode = 2
+text = "PthreeG- Programming and development
+Juuh - Concept artist and level design
+liltlet - Audio and Team Lead"
+label_settings = SubResource("LabelSettings_hskn0")
+
 [node name="OptionsMenu" type="Control" parent="TabContainer" unique_id=1193191551]
 visible = false
 layout_mode = 2
@@ -95,28 +117,6 @@ offset_bottom = 40.0
 [node name="Button-OptionBack" type="Button" parent="TabContainer/OptionsMenu/MarginContainer" unique_id=1864865472]
 layout_mode = 2
 text = " <- BACK "
-
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1040724592]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -40.0
-grow_horizontal = 0
-grow_vertical = 0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1365665758]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1846173883]
-layout_mode = 2
-text = "PthreeG- Programming and development
-Juuh - Concept artist and level design
-liltlet - Audio and Team Lead"
-label_settings = SubResource("LabelSettings_hskn0")
 
 [connection signal="pressed" from="TabContainer/Main/MarginContainer/VBoxContainer/Button-Start" to="." method="_on_button_start_pressed"]
 [connection signal="pressed" from="TabContainer/Main/MarginContainer/VBoxContainer/Button-Options" to="." method="_on_button_options_pressed"]
