@@ -32,22 +32,11 @@ func process_movement(delta: float) -> void:
 
 
 func on_game_state_changed(current: game_state_controller.STATES, _prev: game_state_controller.STATES) -> void:
-	match current:
-		GameStateController.STATES.MAIN_MENU:
-			axis_lock_linear_x = true
-			axis_lock_linear_y = true
-			axis_lock_linear_z = true
-		GameStateController.STATES.ACTIVE:
-			axis_lock_linear_x = false
-			axis_lock_linear_y = false
-			axis_lock_linear_z = false
-		game_state_controller.STATES.LOSS:
-			## Prevent bug when game ends and enemy keeps pushing player
-			axis_lock_linear_x = true
-			axis_lock_linear_y = true
-			axis_lock_linear_z = true
-		
-		game_state_controller.STATES.WIN:
-			axis_lock_linear_x = true
-			axis_lock_linear_y = true
-			axis_lock_linear_z = true
+	@warning_ignore("standalone_ternary")
+	set_axis_lock_linear_all(false) if current == GameStateController.STATES.ACTIVE else set_axis_lock_linear_all(true)
+
+
+func set_axis_lock_linear_all(locked: bool) -> void:
+	axis_lock_linear_x = locked
+	axis_lock_linear_y = locked
+	axis_lock_linear_z = locked
