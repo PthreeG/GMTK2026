@@ -11,6 +11,11 @@ content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
 
+[sub_resource type="LabelSettings" id="LabelSettings_hskn0"]
+font_size = 27
+outline_size = 9
+outline_color = Color(0.087273784, 0.087273784, 0.08727377, 1)
+
 [node name="MainMenu" type="Control" unique_id=331416955]
 layout_mode = 3
 anchors_preset = 15
@@ -68,6 +73,32 @@ text = "OPTIONS"
 
 [node name="MarginContainer2" parent="TabContainer/Main" unique_id=1857440503 instance=ExtResource("3_4cwpn")]
 layout_mode = 1
+
+[node name="MarginContainer3" type="MarginContainer" parent="TabContainer/Main" unique_id=1658851263]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Main/MarginContainer3" unique_id=1674313710]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="TabContainer/Main/MarginContainer3/HBoxContainer" unique_id=965936944]
+custom_minimum_size = Vector2(337.615, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/Main/MarginContainer3/HBoxContainer" unique_id=578651205]
+custom_minimum_size = Vector2(8.775, 3.78)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Due to a malfunction, every 12 seconds, the mining equipment releases a subsonic pulse that stuns you for 3 seconds.
+At the same time, in these mines already intent on your doom, a monster stalks the halls, hunting anyone who crosses its path.
+Follow the rails and find your way to your freedom and finally escape this hell."
+label_settings = SubResource("LabelSettings_hskn0")
+horizontal_alignment = 2
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="OptionsMenu" type="Control" parent="TabContainer" unique_id=1193191551]
 visible = false
